@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { findProblems, relativeLinks } from './check-readme.mjs';
 
 function tree(t, files) {
@@ -66,4 +67,29 @@ test('a template or notes file in case-studies is not a case study', (t) => {
 test('a repository with no case-studies folder yet is fine', (t) => {
   const root = tree(t, { 'README.md': front(0) });
   assert.deepEqual(findProblems(root), []);
+});
+
+test('a link to a heading that exists passes, in the same file and in another file', (t) => {
+  const root = tree(t, { 'README.md': front(0, '[a](#find-what-fits-you) [b](other.md#words-used-here)') + '\n## Find what fits you\n', 'other.md': '# Other\n## Words used here\n' });
+  assert.deepEqual(findProblems(root), []);
+});
+
+test('a link to a heading that is not there is reported (the break: rename a heading, keep the old link)', (t) => {
+  const root = tree(t, { 'README.md': front(0, '[a](#coming-next)') + '\n## Related work\n' });
+  assert.deepEqual(findProblems(root), ['README.md links to #coming-next, but README.md has no such heading']);
+});
+
+test('a repeated heading gets -1 as on GitHub', (t) => {
+  const root = tree(t, { 'README.md': front(0, '[a](#notes-1)') + '\n## Notes\n## Notes\n' });
+  assert.deepEqual(findProblems(root), []);
+});
+
+test('Markdown under .github is not part of the portfolio and is not checked', (t) => {
+  const root = tree(t, { 'README.md': front(0), '.github/pull_request_template.md': '[x](nowhere.md)' });
+  assert.deepEqual(findProblems(root), []);
+});
+
+test('the real repository passes its own check (also proves the script finds the repository root)', () => {
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  assert.deepEqual(findProblems(path.resolve(here, '..', '..')), []);
 });

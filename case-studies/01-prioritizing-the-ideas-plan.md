@@ -1,6 +1,21 @@
 # Prioritizing a backlog of 570 ideas with one person's time
 
-**Role:** product owner of my own portfolio. **How it is kept:** built in one housekeeping session, then its tracker is updated at the end of every build day. **Result so far:** 42 of 570 ideas built (7.4%), every one in a public package with tests.
+**Role:** product owner of my own portfolio. **How it is kept:** built in one housekeeping session, then its tracker is updated at the end of every build day. **Result so far:** 42 of 570 ideas built (7.4% of the whole list), every one in a public package with tests. In the test automation group I am building first, 29 of 171 numbered ideas are built (17%). Why 7.4% is not the number to chase is in [Is 7.4% a good result?](#is-74-a-good-result).
+
+| At a glance | |
+|---|---|
+| The question | What do you build first when one person has far more ideas than time? |
+| The method | Clean the list, sort on fit, size and dependency, bundle the small ones, date milestones not items |
+| The key number | 843 entries became 570 real ideas |
+| The honest part | Adding ideas lowered the percent done, and I left it that way |
+| Read time | About 5 minutes |
+
+```mermaid
+flowchart LR
+  A[843 entries] -->|minus 65 notes and 209 duplicates, plus 1 project kept in the roadmap| C[570 real ideas]
+  C --> D[Sorted by fit, size, dependency]
+  D --> E[42 built so far]
+```
 
 ## The problem
 
@@ -46,6 +61,15 @@ Remaining work today: 120 Small, 372 Medium, 36 Large. By tier: 150 / 153 / 227.
 - **Percent done**, from a tracker updated at the end of every build day. It started at 7.7% on 10 November before the latest additions.
 - **It stays honest when the list grows.** On 10 November I added 46 entries from six new sections. After merging 13 duplicates and filing 8 as notes, the distinct count rose from 545 to 570 and the percent done fell from 7.7% to 7.4%. A tracker that only goes up would have hidden that the backlog grew faster than I built.
 - **Date changes.** When the plan moved on 5 November, 194 dates shifted by one working day, done by script. I record every change in the plan with its reason.
+
+## Is 7.4% a good result?
+
+Not by itself, and it is not meant to be 95%. The list holds far more than I can build before the plan ends in June 2027, on purpose: ideas for roles I am not aiming at first are only built when a posting asks for one. A score of 95% would mean building everything, including the ideas I decided to leave alone. That would be a worse plan, not a better result.
+
+Two numbers say more:
+
+- **The group I am building first.** 29 of the 171 numbered ideas for test automation roles are built (17%). The dated plan finishes the small and medium ones by 11 February 2027 and the large ones by 18 June 2027.
+- **Keeping my own dates.** Dates are the one thing I control, so this is where a 95% target fits: at least 95% of the bundles due by a date should be finished by it. I have not measured this yet. I would start now, and publish the figure here.
 
 ## What I would change
 
