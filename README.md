@@ -12,7 +12,7 @@ Case studies and prototypes for **product owner, product manager, front-end and 
 
 ## Overview
 
-Hiring for a product or design role? This table shows which piece speaks to which role. The planned pieces are the design and front-end ones: things you can see and click.
+Hiring for a product or design role? This table shows which piece speaks to which role. **What exists today:** two case studies, one on product owner and product manager work and one on quality and risk. **What is planned:** the front-end and design pieces, starting with a prototype you can click, then the rest of the product pieces.
 
 ## Roles This Portfolio Speaks To
 
@@ -22,7 +22,7 @@ Hiring for a product or design role? This table shows which piece speaks to whic
 | Product manager | The same backlog study; a metrics case study; user research | Metrics and research planned |
 | Front-end developer | A clickable prototype built in HTML and CSS, with the code | Planned |
 | Designer | A teardown of a public app; a prototype with a plan to test it with users | Planned |
-| Any of the above | [Deciding what to test when time is short](case-studies/02-deciding-what-to-test-when-time-is-short.md): how I decide, and how I tell people what was not covered | Study 2 done |
+| Quality and risk, for any role | [Deciding what to test when time is short](case-studies/02-deciding-what-to-test-when-time-is-short.md): how I decide, and how I tell people what was not covered | Study 2 done |
 
 ## How the Studies Are Told
 

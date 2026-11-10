@@ -1,6 +1,6 @@
 # Prioritizing a Backlog of 570 Ideas with One Person's Time
 
-**Role:** Product owner of my own portfolio. **How it is kept:** built in one housekeeping session, then its tracker is updated at the end of every build day. **Result so far:** 42 of 570 ideas built (7.4% of the whole list), every one in a public package with tests. In the test automation group I am building first, 29 of 171 numbered ideas are built (17%). Why 7.4% is not the number to chase is in [Is 7.4% a good result?](#is-74-a-good-result).
+**Role:** Product owner of my own portfolio. **How it is kept:** Built in one housekeeping session, then its tracker is updated at the end of every build day. **Result so far:** 42 of 570 ideas built (7.4% of the whole list), every one in a public package with tests. In the test automation group I am building first, 29 of 171 numbered ideas are built (17%). Why 7.4% is not the number to chase is in [Is 7.4% a good result?](#is-74-a-good-result).
 
 | At a glance | |
 |---|---|
