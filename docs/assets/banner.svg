@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="240" viewBox="0 0 1280 240" role="img" aria-labelledby="t d">
+  <title id="t">Product Portfolio</title>
+  <desc id="d">Product case studies: prioritization, risk, metrics and prototypes, with the numbers shown.</desc>
+  <rect width="1280" height="240" rx="12" fill="#0f172a"/>
+  <rect x="0" y="228" width="1280" height="12" fill="#d97706"/>
+  <g fill="none" stroke="#fbbf24" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M98 150V96"/>
+    <path d="M132 150V64"/>
+    <path d="M166 150V118"/>
+    <path d="M200 150V82"/>
+    <path d="M86 150h126"/>
+  </g>
+  <text x="250" y="112" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#f8fafc">Product Portfolio</text>
+  <text x="252" y="162" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="28" fill="#cbd5e1">Decisions explained, with the numbers shown.</text>
+</svg>
