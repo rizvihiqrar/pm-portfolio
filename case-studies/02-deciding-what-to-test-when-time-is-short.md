@@ -2,6 +2,22 @@
 
 **Role:** tester and release checker. **Question:** a release is ready, the time to test it is fixed, and everything cannot be tested. What gets tested, in what order, and what do I tell the person who decides to ship?
 
+| At a glance | |
+|---|---|
+| The question | What do you test first when time is fixed, and what do you tell the person who decides to ship? |
+| The rule | Critical first, about 60/30/10 of the time, one whole workflow before the next, raise known problem areas, lead with what changed |
+| The surprise | Smoke runs make 75% fewer live-site test runs, but are not faster |
+| The output | A four-line release summary |
+| Read time | About 4 minutes |
+
+```mermaid
+flowchart LR
+  A[Release ready, time fixed] --> B[Critical flows: about 60% of the time]
+  B --> C[Medium: about 30%]
+  C --> D[Low: about 10%]
+  D --> E[Four-line summary to the decision maker]
+```
+
 ## The problem
 
 Every release has more things to check than hours to check them. Without a rule, the order depends on who is testing and how they feel that day: easy items first, familiar items first, or whatever was in the last release's notes. The risk is quiet. The item nobody got to is the one that breaks in production, and nobody knew it was skipped.
@@ -35,6 +51,15 @@ That is parts 1 and 4 of the rule in a simple form: the small critical set (the 
 
 The figures below come from the project's [technical guide](https://github.com/rizvihiqrar/qa-automation-platform/blob/main/TECHNICAL.md) and the script [scripts/test-scope.mjs](https://github.com/rizvihiqrar/qa-automation-platform/blob/main/scripts/test-scope.mjs), as they stood on 2026-11-10. They will change as the project grows.
 
+```mermaid
+flowchart TD
+  P[Pull request opened] --> Q{Changes the tests, how they run, or has the full-regression label?}
+  Q -->|yes| F[Full suite]
+  Q -->|no| S[Smoke tests only: 16 of 65]
+  M[Push to main, nightly run, manual run] --> F
+  U[Cannot tell what changed] --> F
+```
+
 ## What I measured, and what surprised me
 
 I expected smoke runs to be faster. They are not. A smoke run makes 75% fewer test runs against the live site, but it is not quicker to finish, because the performance job (about 60 seconds) is the slowest part either way. What the rule really buys is fewer runs against a public site that can be slow or flaky.
@@ -43,12 +68,14 @@ That matters for the decision: if I had pitched this as a speed improvement it w
 
 ## What I tell the person deciding to ship
 
-A release summary of four lines, written every time:
+A release summary of four lines, written every time. This is how it looks (example wording, not a real release):
 
-1. What I tested, by tier: critical done, medium done, low done or partly done.
-2. What I did not test, and why.
-3. What I found, and which findings block the release.
-4. My recommendation, and the one thing that would change it.
+| Line | What it says | Example |
+|---|---|---|
+| 1. Tested | What I tested, by tier | Critical: done. Medium: done. Low: partly done. |
+| 2. Not tested | What I did not test, and why | Two low-priority screens, not reached: time ran out. |
+| 3. Found | What I found, and which findings block the release | One medium issue, does not block. |
+| 4. Recommend | My recommendation, and the one thing that would change it | Ship. If the medium issue turns out to affect payments, hold. |
 
 Line 2 is the one that earns trust. It turns a quiet risk into a decision someone makes on purpose.
 
