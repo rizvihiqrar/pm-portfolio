@@ -31,7 +31,9 @@ I built the same decision into my public test project, [qa-automation-platform](
 - Pushes to the main branch, the nightly run and manual runs always run everything.
 - When the script cannot tell what changed, it runs everything. The script's own comment says why: running too much costs a minute, running too little lets a broken test merge.
 
-That is parts 1 and 4 of the rule as code: the critical set always runs first, and anything touching the tests moves up to the full run.
+That is parts 1 and 4 of the rule in a simple form: the small critical set (the smoke tests) always runs, and a change that touches the tests, or a label I add, moves it up to the full run. The last bullet is a different idea, not one of the five parts: a safe default for when the script cannot tell.
+
+The figures below come from the project's [technical guide](https://github.com/rizvihiqrar/qa-automation-platform/blob/main/TECHNICAL.md) and the script [scripts/test-scope.mjs](https://github.com/rizvihiqrar/qa-automation-platform/blob/main/scripts/test-scope.mjs), as they stood on 2026-11-10. They will change as the project grows.
 
 ## What I measured, and what surprised me
 

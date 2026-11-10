@@ -1,4 +1,4 @@
-[![Product Portfolio: decisions explained, with the numbers shown](docs/assets/banner.svg)](case-studies/01-prioritizing-the-ideas-plan.md)
+![Product Portfolio: decisions explained, with the numbers shown](docs/assets/banner.svg)
 
 # Product portfolio
 
@@ -16,7 +16,7 @@ A product decision is a choice with a cost: what to build first, what to leave o
 ## At a glance
 
 - 2 case studies so far, with more planned (see [the pieces](#the-pieces))
-- Every study uses the same shape: problem, constraints, what I did, how I know it worked, what I would change
+- Every study uses the same frame: problem, constraints, the method, what I measured, what I would change
 - Real numbers from my own work, each traceable to a plan or a public repository; a rule of thumb is labelled as one
 - One measured surprise: a change I expected to be faster was not, and the study says so
 - A short release summary template: what was tested, what was not, what was found, my recommendation
@@ -40,7 +40,7 @@ A product decision is a choice with a cost: what to build first, what to leave o
 |---|---|
 | Problem | What was wrong or unknown, in plain words |
 | Constraints | Time, people, money and rules I could not change |
-| What I did | The method, with the reasoning, not only the result |
+| The method (headed "What I did" or "The rule I use") | What I did and why, not only the result |
 | What I measured | Numbers, where they came from, and anything that surprised me |
 | What I would change | Honest weaknesses and the next test |
 
