@@ -1,6 +1,6 @@
-# Deciding what to test when time is short
+# Deciding What to Test When Time Is Short
 
-**Role:** tester and release checker. **Question:** a release is ready, the time to test it is fixed, and everything cannot be tested. What gets tested, in what order, and what do I tell the person who decides to ship?
+**Role:** Tester and release checker. **Question:** A release is ready, the time to test it is fixed, and everything cannot be tested. What gets tested, in what order, and what do I tell the person who decides to ship?
 
 | At a glance | |
 |---|---|
@@ -18,7 +18,7 @@ flowchart LR
   D --> E[Four-line summary to the decision maker]
 ```
 
-## The problem
+## The Problem
 
 Every release has more things to check than hours to check them. Without a rule, the order depends on who is testing and how they feel that day: easy items first, familiar items first, or whatever was in the last release's notes. The risk is quiet. The item nobody got to is the one that breaks in production, and nobody knew it was skipped.
 
@@ -28,7 +28,7 @@ Every release has more things to check than hours to check them. Without a rule,
 - The checklist grows with every release and never shrinks.
 - The person deciding to ship reads a summary, not the test steps, so the summary has to say what was not covered.
 
-## The rule I use
+## The Rule I Use
 
 It is a rule of thumb from release testing I have done, and it has five parts:
 
@@ -38,7 +38,7 @@ It is a rule of thumb from release testing I have done, and it has five parts:
 4. **Raise known problem areas.** Anything named in a bug report or that failed last time moves up to critical.
 5. **Lead with what changed.** The release notes say where the risk is; start there inside each tier.
 
-## Where the rule shows up in code
+## Where the Rule Shows Up in Code
 
 I built the same decision into my public test project, [qa-automation-platform](https://github.com/rizvihiqrar/qa-automation-platform). A small script, `scripts/test-scope.mjs`, decides whether a change gets a quick smoke set of tests or the whole suite:
 
@@ -60,13 +60,13 @@ flowchart TD
   U[Cannot tell what changed] --> F
 ```
 
-## What I measured, and what surprised me
+## What I Measured, and What Surprised Me
 
 I expected smoke runs to be faster. They are not. A smoke run makes 75% fewer test runs against the live site, but it is not quicker to finish, because the performance job (about 60 seconds) is the slowest part either way. What the rule really buys is fewer runs against a public site that can be slow or flaky.
 
 That matters for the decision: if I had pitched this as a speed improvement it would have been wrong. The honest benefit is less noise, and I would say so.
 
-## What I tell the person deciding to ship
+## What I Tell the Person Deciding to Ship
 
 A release summary of four lines, written every time. This is how it looks (example wording, not a real release):
 
@@ -79,7 +79,7 @@ A release summary of four lines, written every time. This is how it looks (examp
 
 Line 2 is the one that earns trust. It turns a quiet risk into a decision someone makes on purpose.
 
-## What I would change
+## What I Would Change
 
 - The 60 / 30 / 10 split is a rule of thumb. I have not measured it. To check it, I would count bugs that escaped to production by tier. If critical items rarely escape and low items often do, the split is right; if the reverse, it is wrong.
 - Tiers are assigned by judgment. Writing the reasons next to each item would let someone else challenge them.
