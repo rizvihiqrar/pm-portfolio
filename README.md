@@ -9,9 +9,10 @@ No made-up users, no borrowed company data. Where a piece needs real people (use
 | # | Piece | Status |
 |---|---|---|
 | 1 | [Prioritizing a backlog of 570 ideas with one person's time](case-studies/01-prioritizing-the-ideas-plan.md) | In review |
-| 2 | Metrics case study: a North Star metric, the funnel, and a metric drop | Planned |
-| 3 | Low-fidelity prototype with a validation plan | Planned |
-| 4 | User research case study (needs five consented interviews) | Planned |
-| 5 | Product teardown and a requirements document for one feature | Planned |
+| 2 | [Deciding what to test when time is short](case-studies/02-deciding-what-to-test-when-time-is-short.md) | In review |
+| 3 | Metrics case study: a North Star metric, the funnel, and a metric drop | Planned |
+| 4 | Low-fidelity prototype with a validation plan | Planned |
+| 5 | User research case study (needs five consented interviews) | Planned |
+| 6 | Product teardown and a requirements document for one feature | Planned |
 
 One small piece a week. My main portfolio, with the test automation work behind these pieces, is [qa-automation-platform](https://github.com/rizvihiqrar/qa-automation-platform).
