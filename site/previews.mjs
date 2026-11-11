@@ -4,7 +4,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { escapeHtml, repoRoot } from './build.mjs';
+import { escapeHtml, repoRoot, previewKey } from './build.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const config = JSON.parse(fs.readFileSync(path.join(here, 'site.json'), 'utf8'));
@@ -29,6 +29,7 @@ h1 { font-size: 76px; line-height: 1.12; margin: 0; max-width: 1000px; color: va
 </body></html>`;
 }
 
+const manifest = {};
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
 for (const card of config.cards.filter((c) => c.image)) {
@@ -37,6 +38,8 @@ for (const card of config.cards.filter((c) => c.image)) {
   const target = path.join(repoRoot, card.image);
   fs.mkdirSync(path.dirname(target), { recursive: true });
   await page.screenshot({ path: target });
+  manifest[card.image] = previewKey(card, config.name);
   console.log('wrote', card.image);
 }
 await browser.close();
+fs.writeFileSync(path.join(repoRoot, 'docs/assets/previews/manifest.json'), JSON.stringify(manifest, null, 2) + '\n');

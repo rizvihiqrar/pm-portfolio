@@ -10,11 +10,11 @@ Hiring for a product or design role? This table shows which piece speaks to whic
 
 | Role | What to look at | Status |
 |---|---|---|
-| Product owner | [Prioritizing a backlog](../case-studies/01-prioritizing-the-ideas-plan.md); a requirements document with acceptance criteria | Study 1 done; requirements document planned |
+| Product owner | [Prioritizing a backlog](../case-studies/01-prioritizing-the-ideas-plan.md); a requirements document with acceptance criteria | Available now; requirements document planned |
 | Product manager | The same backlog study; a metrics case study; user research | Metrics and research planned |
 | Front-end developer | A clickable prototype built in HTML and CSS, with the code | Planned |
 | Designer | A teardown of a public app; a prototype with a plan to test it with users | Planned |
-| Quality and risk, for any role | [Deciding what to test when time is short](../case-studies/02-deciding-what-to-test-when-time-is-short.md): how I decide, and how I tell people what was not covered | Study 2 done |
+| Quality and risk, for any role | [Deciding what to test when time is short](../case-studies/02-deciding-what-to-test-when-time-is-short.md): how I decide, and how I tell people what was not covered | Available now |
 
 ## How the Studies Are Told
 
@@ -24,21 +24,6 @@ A product decision is a choice with a cost: what to build first, what to leave o
 flowchart LR
   A[Problem] --> B[Constraints] --> C[The method] --> D[What I measured] --> E[What I would change]
 ```
-
-## At a Glance
-
-| | Study 1 | Study 2 |
-|---|---|---|
-| **Topic** | Prioritizing a backlog | Choosing what to test |
-| **The decision** | What to build first with too little time | What to check before a release ships |
-| **The key number** | 843 entries became 570 real ideas | A smoke run makes 75% fewer test runs, but is not faster |
-| **What it shows** | Sorting by fit, size and dependency; honest progress | Risk-based choices; saying what was not covered |
-| **Read time** | About 5 minutes | About 4 minutes |
-
-- 2 case studies so far, with more on the way (see [coming next](#coming-next))
-- Real numbers from my own work, each traceable to a plan or a public repository; a rule of thumb is labelled as one
-- Every study ends with what I would change, not only what went well
-- A [check](https://github.com/rizvihiqrar/product-portfolio/blob/main/.github/scripts/check-readme.mjs) that stops this page from linking to a missing file or forgetting a new case study
 
 ## How Each Study Is Built
 

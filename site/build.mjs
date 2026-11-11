@@ -11,16 +11,19 @@ import { gfmHeadingId } from 'marked-gfm-heading-id';
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const repoRoot = path.resolve(here, '..');
 
+import crypto from 'crypto';
 export const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /** A relative link in the Markdown, as it should read on the site: .md becomes .html, README.md becomes its folder. */
 export function rewriteHref(href) {
   if (/^([a-z][a-z0-9+.-]*:|#|\/\/)/i.test(href)) return href;
-  const [file, ...rest] = href.split('#');
+  const [withQuery, ...rest] = href.split('#');
+  const file = withQuery.split('?')[0];
   const anchor = rest.length ? `#${rest.join('#')}` : '';
-  let out = file;
+  let out = withQuery;
   if (/(^|\/)README\.md$/i.test(file)) out = file.replace(/README\.md$/i, '');
   else if (file.endsWith('.md')) out = `${file.slice(0, -3)}.html`;
+  else out = withQuery;
   return (out || './') + anchor;
 }
 
@@ -49,9 +52,15 @@ export function renderMarkdown(markdown) {
     return `<pre class="mermaid">${code}</pre>`;
   });
   html = html.replace(/<thead>\s*<tr>(?:\s*<th[^>]*>\s*<\/th>)+\s*<\/tr>\s*<\/thead>/g, ''); // a table with an empty header row shows no header
-  html = html.replace(/<table>([\s\S]*?)<\/table>/g, '<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table>$1</table></div>');
+  html = html.replace(/<table>([\s\S]*?)<\/table>/g, (whole, inner, offset, all) => {
+    const heads = [...all.slice(0, offset).matchAll(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/g)];
+    const near = heads.length ? heads[heads.length - 1][1].replace(/<[^>]+>/g, '') : 'Page';
+    return `<div class="table-wrap" tabindex="0" role="region" aria-label="${escapeHtml(near)} table"><table>${inner}</table></div>`;
+  });
   html = html.replace(/<a href="([^"]*)"/g, (_, href) => `<a href="${rewriteHref(href.replace(/&amp;/g, '&')).replace(/&/g, '&amp;')}"`);
-  return { html, title, hasMermaid };
+  const first = (html.match(/<p>([\s\S]*?)<\/p>/) ?? [])[1] ?? '';
+  const description = first.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().slice(0, 160);
+  return { html, title, hasMermaid, description };
 }
 
 const THEME_SCRIPT = `try{var s=localStorage.getItem('theme');s=(s==='dark'||s==='light')?s:null;var t=s||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}`;
@@ -160,7 +169,7 @@ function subnavFor(config, mdPath) {
 }
 
 /** The only non-Markdown files that are published: handouts and images. Editor and lock files never are. */
-export const PUBLISHED_FILES = /\.(docx|xlsx|pptx|pdf|png|jpe?g|gif|svg|csv|txt)$/i;
+export const PUBLISHED_FILES = /\.(docx|xlsx|pptx|pdf|png|jpe?g|gif|svg)$/i;
 
 function walk(root, dir, include) {
   const out = [];
@@ -178,15 +187,21 @@ export function buildSite({ root = repoRoot, out = path.join(root, '_site'), con
   fs.rmSync(out, { recursive: true, force: true });
   fs.mkdirSync(out, { recursive: true });
   const pages = [];
-  for (const rel of walk(root, '', config.include)) {
+  const files = walk(root, '', config.include);
+  const taken = new Map([['index.html', 'the home page']]);
+  for (const rel of files.filter((f) => f.endsWith('.md'))) {
+    const outRel = /(^|\/)README\.md$/i.test(rel) ? rel.replace(/README\.md$/i, 'index.html') : rel.replace(/\.md$/, '.html');
+    if (taken.has(outRel)) throw new Error(`two files would both become ${outRel}`);
+    taken.set(outRel, rel);
+  }
+  for (const rel of files) {
     if (rel.endsWith('.md')) {
-      const { html, title, hasMermaid } = renderMarkdown(fs.readFileSync(path.join(root, rel), 'utf8'));
+      const { html, title, hasMermaid, description } = renderMarkdown(fs.readFileSync(path.join(root, rel), 'utf8'));
       const outRel = /(^|\/)README\.md$/i.test(rel) ? rel.replace(/README\.md$/i, 'index.html') : rel.replace(/\.md$/, '.html');
       const depth = outRel.split('/').length - 1;
       const target = path.join(out, outRel);
       fs.mkdirSync(path.dirname(target), { recursive: true });
-      fs.writeFileSync(target, pageHtml({ config, title, body: `<article class="prose">\n${html}</article>`, depth, subnav: subnavFor(config, rel), hasMermaid }));
-      if (pages.includes(outRel)) throw new Error(`two files would both become ${outRel}`);
+      fs.writeFileSync(target, pageHtml({ config, title, body: `<article class="prose">\n${html}</article>`, depth, subnav: subnavFor(config, rel), hasMermaid, description }));
       pages.push(outRel);
     } else if (PUBLISHED_FILES.test(rel) && !/(^|\/)(\.|~\$)/.test(rel)) {
       const target = path.join(out, rel);
@@ -199,6 +214,11 @@ export function buildSite({ root = repoRoot, out = path.join(root, '_site'), con
   fs.copyFileSync(path.join(here, 'site.css'), path.join(out, 'site.css'));
   fs.writeFileSync(path.join(out, '.nojekyll'), '');
   return pages;
+}
+
+/** What a card's preview image shows: if any of it changes, the image is out of date. */
+export function previewKey(card, siteName) {
+  return crypto.createHash('sha1').update(JSON.stringify([siteName, card.label, card.title, card.tags])).digest('hex').slice(0, 12);
 }
 
 /** Every relative link and file reference in the built site must resolve, and every #anchor must exist. */

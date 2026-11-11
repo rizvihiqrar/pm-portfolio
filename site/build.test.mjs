@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { rewriteHref, renderMarkdown, buildSite, checkSite, repoRoot, PUBLISHED_FILES, contactHtml } from './build.mjs';
+import { rewriteHref, renderMarkdown, buildSite, checkSite, repoRoot, PUBLISHED_FILES, contactHtml, previewKey } from './build.mjs';
 
 const config = JSON.parse(fs.readFileSync(new URL('./site.json', import.meta.url), 'utf8'));
 
@@ -132,4 +132,48 @@ test('two files that would become the same page stop the build', (t) => {
   fs.writeFileSync(path.join(root, 'docs', 'README.md'), '# One\n');
   fs.writeFileSync(path.join(root, 'docs', 'index.md'), '# Two\n');
   assert.throws(() => buildSite({ root, out, config: small([card()]) }), /two files would both become docs\/index\.html/);
+});
+
+test('every numbered case study has a card on the home page (the break: add a study, forget its card)', () => {
+  const onCards = new Set(config.cards.map((c) => c.path).filter(Boolean));
+  const studies = fs.readdirSync(path.join(repoRoot, 'case-studies')).filter((f) => /^\d\d-.+\.md$/.test(f)).map((f) => `case-studies/${f}`);
+  assert.ok(studies.length > 0);
+  for (const s of studies) assert.ok(onCards.has(s), `${s} has a card in site.json`);
+});
+
+test('each preview image matches its card (the break: edit a title, forget to run npm run previews)', () => {
+  const manifest = JSON.parse(fs.readFileSync(path.join(repoRoot, 'docs/assets/previews/manifest.json'), 'utf8'));
+  for (const c of config.cards.filter((x) => x.image)) {
+    assert.equal(manifest[c.image], previewKey(c, config.name), `${c.image} is out of date: run npm run previews in site/`);
+  }
+});
+
+test('a changed card title makes its preview key change', () => {
+  const c = config.cards[0];
+  assert.notEqual(previewKey(c, config.name), previewKey({ ...c, title: `${c.title}!` }, config.name));
+});
+
+test('a Markdown link with a query string still points at the built page', () => {
+  assert.equal(rewriteHref('other.md?plain=1'), 'other.html');
+  assert.equal(rewriteHref('other.md?plain=1#part'), 'other.html#part');
+});
+
+test('each table is named after the heading above it, and each page has its own description', () => {
+  const { html, description } = renderMarkdown('# Title\n\nIntro sentence here.\n\n## Roles\n\n| A | B |\n|---|---|\n| 1 | 2 |\n');
+  assert.match(html, /aria-label="Roles table"/);
+  assert.equal(description, 'Intro sentence here.');
+});
+
+test('a collision stops the build before anything is written', (t) => {
+  const root = scratch(t);
+  const out = scratch(t);
+  fs.mkdirSync(path.join(root, 'docs'));
+  fs.writeFileSync(path.join(root, 'docs', 'README.md'), '# One\n');
+  fs.writeFileSync(path.join(root, 'docs', 'index.md'), '# Two\n');
+  assert.throws(() => buildSite({ root, out, config: small([card()]) }), /two files would both become docs\/index\.html/);
+  assert.ok(!fs.existsSync(path.join(out, 'docs', 'index.html')), 'nothing was written');
+});
+
+test('csv and txt files are not published', () => {
+  for (const no of ['data.csv', 'notes.txt']) assert.ok(!PUBLISHED_FILES.test(no), no);
 });
