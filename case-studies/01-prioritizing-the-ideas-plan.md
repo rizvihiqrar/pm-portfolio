@@ -69,7 +69,7 @@ Not by itself, and it is not meant to be 95%. The list holds far more than I can
 Two numbers say more:
 
 - **The group I am building first.** 29 of the 171 numbered ideas for test automation roles are built (17%). The dated plan finishes the small and medium ones by 11 February 2027 and the large ones by 18 June 2027.
-- **Keeping my own dates.** Dates are the one thing I control, so this is where a 95% target fits: at least 95% of the bundles due by a date should be finished by it. I have not measured this yet. I would start now, and publish the figure here.
+- **Keeping my own dates.** Dates are the one thing I control, so this is where a 95% target fits: at least 95% of the bundles due by a date should be finished by it. I have not measured this for this plan yet; it is a separate question from how my projects at work finished. I would start now, and publish the figure here.
 
 ## What I Would Change
 
