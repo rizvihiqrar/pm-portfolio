@@ -1,0 +1,123 @@
+{
+  "name": "Product Portfolio",
+  "intro": "Case studies and prototypes for product owner, product manager, front-end and design roles, built from real work on my own projects.",
+  "repo": "https://github.com/rizvihiqrar/product-portfolio",
+  "footerNote": "Real numbers from my own projects.",
+  "contact": {
+    "email": "iqrar.h.rizvi@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/iqrar-rizvi",
+    "intro": "Hiring, or curious how I work? Send me a message."
+  },
+  "include": [
+    "^case-studies$",
+    "^docs$"
+  ],
+  "nav": [
+    {
+      "label": "Case Studies",
+      "href": "index.html#case-studies"
+    },
+    {
+      "label": "About Me",
+      "href": "docs/about.html"
+    },
+    {
+      "label": "How It Works",
+      "href": "docs/overview.html"
+    },
+    {
+      "label": "Contact",
+      "href": "index.html#contact"
+    }
+  ],
+  "sectionId": "case-studies",
+  "sectionTitle": "Case Studies",
+  "sectionIntro": "Each one starts with a problem, shows the decisions, and ends with what I would change. Filter by role.",
+  "primaryButton": "Browse Case Studies",
+  "aboutButton": "About Me",
+  "aboutHref": "docs/about.html",
+  "filterTags": [
+    "Product Owner",
+    "Product Manager",
+    "Front End",
+    "Design",
+    "Quality and Risk"
+  ],
+  "cards": [
+    {
+      "label": "Case Study",
+      "title": "Prioritizing a Backlog of 570 Ideas",
+      "path": "case-studies/01-prioritizing-the-ideas-plan.md",
+      "image": "docs/assets/previews/01-prioritizing.png",
+      "imageAlt": "Title card: Prioritizing a Backlog of 570 Ideas",
+      "tags": [
+        "Product Owner",
+        "Product Manager"
+      ],
+      "summary": "How one person with far more ideas than time decided what to build first, and kept the progress number honest as the list grew.",
+      "button": "View Case Study"
+    },
+    {
+      "label": "Case Study",
+      "title": "Deciding What to Test When Time Is Short",
+      "path": "case-studies/02-deciding-what-to-test-when-time-is-short.md",
+      "image": "docs/assets/previews/02-testing.png",
+      "imageAlt": "Title card: Deciding What to Test When Time Is Short",
+      "tags": [
+        "Quality and Risk",
+        "Product Owner"
+      ],
+      "summary": "A five-part rule for ordering release testing, a four-line summary for the person who decides to ship, and a measurement that surprised me.",
+      "button": "View Case Study"
+    },
+    {
+      "label": "Prototype",
+      "title": "A Clickable Prototype",
+      "status": "planned",
+      "tags": [
+        "Front End",
+        "Design"
+      ],
+      "summary": "A prototype built in HTML and CSS that you can click, with the code and the choices behind it."
+    },
+    {
+      "label": "Teardown",
+      "title": "One Public App, Taken Apart",
+      "status": "planned",
+      "tags": [
+        "Design",
+        "Product Manager"
+      ],
+      "summary": "What works, what does not, and what to improve, with annotated screenshots."
+    },
+    {
+      "label": "Requirements",
+      "title": "A Requirements Document for One Feature",
+      "status": "planned",
+      "tags": [
+        "Product Owner"
+      ],
+      "summary": "Problem, goals, success measures, user stories and acceptance criteria."
+    },
+    {
+      "label": "Metrics",
+      "title": "A North Star Metric and a Metric Drop",
+      "status": "planned",
+      "tags": [
+        "Product Manager"
+      ],
+      "summary": "A funnel, a metric that matters, and how to investigate when it falls."
+    },
+    {
+      "label": "Research",
+      "title": "User Research With Five Real People",
+      "status": "planned",
+      "tags": [
+        "Product Manager",
+        "Design"
+      ],
+      "summary": "Consented interviews, the patterns across them, and a problem statement."
+    }
+  ],
+  "courseNav": []
+}

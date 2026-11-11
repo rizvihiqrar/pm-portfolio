@@ -1,0 +1,17 @@
+{
+  "name": "product-portfolio-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test build.test.mjs",
+    "previews": "node previews.mjs"
+  },
+  "dependencies": {
+    "marked": "^15.0.0",
+    "marked-gfm-heading-id": "^4.1.0"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}
