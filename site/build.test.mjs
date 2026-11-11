@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { rewriteHref, renderMarkdown, buildSite, checkSite, repoRoot, PUBLISHED_FILES, contactHtml, previewKey } from './build.mjs';
+import { rewriteHref, renderMarkdown, buildSite, checkSite, repoRoot, pageHtml, escapeHtml, PUBLISHED_FILES, contactHtml, previewKey } from './build.mjs';
 
 const config = JSON.parse(fs.readFileSync(new URL('./site.json', import.meta.url), 'utf8'));
 
@@ -190,4 +190,56 @@ test('every link in the front README that points into the live site is a real pa
     assert.ok(fs.existsSync(target), `${url} is a page in the built site`);
     if (anchor) assert.match(fs.readFileSync(target, 'utf8'), new RegExp(`\\sid="${anchor}"`), `${url} has the heading #${anchor}`);
   }
+});
+
+test('a page description with an ampersand or quotes is escaped once, not twice', () => {
+  const { description } = renderMarkdown('# T\n\nTom & "Jerry" <b>and</b> friends.\n');
+  assert.equal(description, 'Tom & "Jerry" and friends.');
+  const html = pageHtml({ config, title: 'T', body: '', depth: 0, description });
+  assert.match(html, /<meta name="description" content="Tom &amp; &quot;Jerry&quot; and friends\.">/);
+  assert.doesNotMatch(html, /&amp;amp;/);
+});
+
+test('table names are decoded once, a second table under one heading is numbered, and a table with no heading is still named', () => {
+  const md = '| A |\n|---|\n| 1 |\n\n## Q&A\n\n| B |\n|---|\n| 2 |\n\n| C |\n|---|\n| 3 |\n';
+  const { html } = renderMarkdown(md);
+  assert.match(html, /aria-label="Opening table"/);
+  assert.match(html, /aria-label="Q&amp;A table"/);
+  assert.match(html, /aria-label="Q&amp;A table 2"/);
+  assert.doesNotMatch(html, /&amp;amp;/);
+});
+
+test('the filter chips stay hidden until the page script reveals them, so nothing useless shows without JavaScript', (t) => {
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config });
+  const html = fs.readFileSync(path.join(out, 'index.html'), 'utf8');
+  assert.match(html, /<div class="filters" role="group" aria-label="Filter by [A-Za-z ]+" hidden>/);
+  assert.match(html, /g\.hidden=false/);
+  assert.match(html, /\(c\.getAttribute\('data-tags'\)\|\|''\)/);
+});
+
+test('the filter group is named after what the cards are filtered by', (t) => {
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config });
+  assert.ok(fs.readFileSync(path.join(out, 'index.html'), 'utf8').includes(`aria-label="Filter by ${escapeHtml(config.filterLabel)}"`));
+  const noLabel = scratch(t);
+  buildSite({ root: repoRoot, out: noLabel, config: { ...config, filterLabel: undefined } });
+  assert.match(fs.readFileSync(path.join(noLabel, 'index.html'), 'utf8'), /aria-label="Filter by Topic"/);
+});
+
+test('the About page uses the same email and LinkedIn address as the footer and contact buttons', () => {
+  const about = fs.readFileSync(path.join(repoRoot, 'docs/about.md'), 'utf8');
+  assert.ok(about.includes(`mailto:${config.contact.email}`), 'the email matches site.json');
+  assert.ok(about.includes(config.contact.linkedin), 'the LinkedIn address matches site.json');
+});
+
+test('the stylesheet really hides the filter chips while they have the hidden attribute (the markup alone is not enough)', () => {
+  const css = fs.readFileSync(new URL('./site.css', import.meta.url), 'utf8');
+  assert.match(css, /\.filters\[hidden\][^{]*\{[^}]*display:\s*none/);
+});
+
+test('two sections that happen to share a heading each get their own table name, not a number', () => {
+  const { html } = renderMarkdown('## A\n\n## Results\n\n| X |\n|---|\n| 1 |\n\n## B\n\n## Results\n\n| Y |\n|---|\n| 2 |\n');
+  assert.equal((html.match(/aria-label="Results table"/g) ?? []).length, 2);
+  assert.doesNotMatch(html, /Results table 2/);
 });
