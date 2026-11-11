@@ -45,7 +45,8 @@
       "visualAlt": "Looping illustration: 843 entries become 570 ideas, sorted into small, medium and large.",
       "code": "843 entries -> 570 real ideas -> sorted by fit, size and dependency",
       "codeLang": "text",
-      "oneLiner": "843 raw entries became 570 real ideas, sorted by size, with a progress number that stays honest as the list grows."
+      "oneLiner": "843 raw entries became 570 real ideas, sorted by size, with a progress number that stays honest as the list grows.",
+      "codeLabel": "Result"
     },
     {
       "label": "Case Study",
@@ -63,7 +64,8 @@
       "visualAlt": "Looping illustration: test time split 60, 30 and 10 percent across critical, medium and low flows, then a four-line release summary.",
       "code": "Critical first: 60%\nMedium: 30%\nLow: 10%",
       "codeLang": "text",
-      "oneLiner": "75% fewer live-site test runs on pull requests, and a four-line summary for whoever decides to ship."
+      "oneLiner": "75% fewer live-site test runs on pull requests, and a four-line summary for whoever decides to ship.",
+      "codeLabel": "Rule"
     },
     {
       "label": "Prototype",
