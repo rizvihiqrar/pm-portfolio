@@ -1,11 +1,14 @@
 {
   "name": "Product Portfolio",
+  "theme": "stageshow",
   "intro": "Case studies and prototypes for product owner, product manager, front-end and design roles, built from real work on my own projects.",
   "repo": "https://github.com/rizvihiqrar/product-portfolio",
   "footerNote": "Real numbers from my own projects.",
   "contact": {
     "email": "iqrar.h.rizvi@gmail.com",
-    "linkedin": "https://www.linkedin.com/in/iqrar-rizvi"
+    "linkedin": "https://www.linkedin.com/in/iqrar-rizvi",
+    "instagram": "https://www.instagram.com/iqrar.rizvi.ai/",
+    "x": "https://x.com/iqrar_rizvi_ai"
   },
   "include": [
     "^case-studies$",
@@ -28,29 +31,39 @@
   "cards": [
     {
       "label": "Case Study",
-      "title": "Prioritizing a Backlog of 570 Ideas",
+      "title": "Organizing Ideas",
       "path": "case-studies/01-prioritizing-the-ideas-plan.md",
       "image": "docs/assets/previews/01-prioritizing.png",
-      "imageAlt": "Title card: Prioritizing a Backlog of 570 Ideas",
+      "imageAlt": "Title card: Organizing Ideas",
       "tags": [
         "Product Owner",
         "Product Manager"
       ],
       "summary": "How one person with far more ideas than time decided what to build first, and kept the progress number honest as the list grew.",
-      "button": "View Case Study"
+      "button": "View Case Study",
+      "visual": "docs/assets/visuals/01-prioritizing.svg",
+      "visualAlt": "Looping illustration: 843 entries become 570 ideas, sorted into small, medium and large.",
+      "code": "843 entries -> 570 real ideas -> sorted by fit, size and dependency",
+      "codeLang": "text",
+      "oneLiner": "843 raw entries became 570 real ideas, sorted by size, with a progress number that stays honest as the list grows."
     },
     {
       "label": "Case Study",
-      "title": "Deciding What to Test When Time Is Short",
+      "title": "Testing Decisions",
       "path": "case-studies/02-deciding-what-to-test-when-time-is-short.md",
       "image": "docs/assets/previews/02-testing.png",
-      "imageAlt": "Title card: Deciding What to Test When Time Is Short",
+      "imageAlt": "Title card: Testing Decisions",
       "tags": [
         "Quality and Risk",
         "Product Owner"
       ],
       "summary": "A five-part rule for ordering release testing, a four-line summary for the person who decides to ship, and a measurement that surprised me.",
-      "button": "View Case Study"
+      "button": "View Case Study",
+      "visual": "docs/assets/visuals/02-testing.svg",
+      "visualAlt": "Looping illustration: test time split 60, 30 and 10 percent across critical, medium and low flows, then a four-line release summary.",
+      "code": "Critical first: 60%\nMedium: 30%\nLow: 10%",
+      "codeLang": "text",
+      "oneLiner": "75% fewer live-site test runs on pull requests, and a four-line summary for whoever decides to ship."
     },
     {
       "label": "Prototype",
@@ -102,5 +115,6 @@
     }
   ],
   "courseNav": [],
-  "siteUrl": "https://rizvihiqrar.github.io/product-portfolio/"
+  "siteUrl": "https://rizvihiqrar.github.io/product-portfolio/",
+  "owner": "Iqrar Rizvi"
 }

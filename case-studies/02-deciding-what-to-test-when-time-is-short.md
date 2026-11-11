@@ -1,4 +1,4 @@
-# Deciding What to Test When Time Is Short
+# Testing Decisions
 
 **Role:** Tester and release checker. **Question:** A release is ready, the time to test it is fixed, and everything cannot be tested. What gets tested, in what order, and what do I tell the person who decides to ship?
 
