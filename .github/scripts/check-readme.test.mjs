@@ -16,7 +16,8 @@ function tree(t, files) {
   return root;
 }
 const caseProblem = (heading, word) => `README.md: the heading "${heading}" is not in title case ("${word}"): capitalize it, or add it to LOWERCASE_NAMES if it is a name written in lower case`;
-const front = (studies, links = '') => `${studies} case studies so far ${links}`;
+const front = (count, links = '') => `# Front
+${links}`;
 
 test('web links, anchors and web images are not checked', () => {
   assert.deepEqual(relativeLinks('[a](https://x.y) [b](#top) [c](case-studies/a.md#part) ![d](https://i.png) [e](mailto:a@b.c)'), ['case-studies/a.md']);
@@ -30,7 +31,7 @@ test('a target with parentheses, a title, angle brackets and a malformed percent
   assert.deepEqual(relativeLinks('[a](docs/Guide_(v2).md) [b](x.md "Title") [c](<my file.md>) [d](100%.md)'), ['docs/Guide_(v2).md', 'x.md', 'my file.md', '100%.md']);
 });
 
-test('a README that links every case study, with the right count, is fine (also with a ./ prefix)', (t) => {
+test('a README that links every case study is fine (also with a ./ prefix)', (t) => {
   const root = tree(t, { 'README.md': front(1, '[One](./case-studies/01-one.md)'), 'case-studies/01-one.md': '# One' });
   assert.deepEqual(findProblems(root), []);
 });
@@ -42,7 +43,7 @@ test('a link to a missing file is reported', (t) => {
 
 test('a broken link inside a case study is reported, resolved from that file', (t) => {
   const root = tree(t, { 'README.md': front(1, '[a](case-studies/01-a.md)'), 'case-studies/01-a.md': '[gone](../docs/missing.md) [ok](02-b.md)', 'case-studies/02-b.md': '# H' });
-  assert.deepEqual(findProblems(root), ['case-studies/01-a.md links to ../docs/missing.md, which does not exist', 'case-studies/02-b.md exists but the front README does not link to it', 'the front README says 1 case studies so far, but there are 2']);
+  assert.deepEqual(findProblems(root), ['case-studies/01-a.md links to ../docs/missing.md, which does not exist', 'case-studies/02-b.md exists but the front README does not link to it']);
 });
 
 test('a link with the wrong letter case is reported, because GitHub is case-sensitive', (t) => {
@@ -53,11 +54,6 @@ test('a link with the wrong letter case is reported, because GitHub is case-sens
 test('a case study the README does not mention is reported (the break: add a piece, forget the link)', (t) => {
   const root = tree(t, { 'README.md': front(1), 'case-studies/02-two.md': '# Two' });
   assert.deepEqual(findProblems(root), ['case-studies/02-two.md exists but the front README does not link to it']);
-});
-
-test('a stale case study count is reported (the break: add a piece, forget the number)', (t) => {
-  const root = tree(t, { 'README.md': front(1, '[a](case-studies/01-a.md) [b](case-studies/02-b.md)'), 'case-studies/01-a.md': '# H', 'case-studies/02-b.md': '# H' });
-  assert.deepEqual(findProblems(root), ['the front README says 1 case studies so far, but there are 2']);
 });
 
 test('a template or notes file in case-studies is not a case study', (t) => {

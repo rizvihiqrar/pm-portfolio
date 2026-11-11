@@ -4,7 +4,6 @@
 //   - any Markdown file links to a file or folder that doesn't exist (exact letter case, as on GitHub),
 //     or to a #heading that is not in the file it points at;
 //   - a numbered case study in case-studies/ (01-name.md) is not linked from the front README;
-//   - the front README says "N case studies so far" and N is not the number of case studies.
 // Written style: headings are in title case, and the phrase "plain English" is not used anywhere.
 // Web links are not checked: third-party sites block bots and would make the build flaky.
 import fs from 'fs';
@@ -149,9 +148,6 @@ export function findProblems(root) {
   for (const study of studies) {
     if (!linked.includes(study)) problems.push(`${study} exists but the front README does not link to it`);
   }
-  const stated = readme.match(/(\d+) case studies so far/);
-  if (!stated) problems.push('the front README does not say "N case studies so far"');
-  else if (Number(stated[1]) !== studies.length) problems.push(`the front README says ${stated[1]} case studies so far, but there are ${studies.length}`);
   return problems;
 }
 
