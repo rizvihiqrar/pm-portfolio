@@ -8,10 +8,33 @@ That is what I like building most: a lesson plan, a clear page, a test that tell
 
 ## What I Do
 
-- **Product owner and product manager work:** Sorting a long list of ideas into what to build first, writing down why, and measuring whether it worked.
-- **Front end and design work:** Making things you can see and click, and explaining the choices behind them. Those pieces are planned and come next.
-- **Quality and risk:** Deciding what to check when time is short, and telling the people who decide what was not covered.
-- **Training:** Courses, lesson plans and quizzes, in my [training portfolio](https://rizvihiqrar.github.io/training-portfolio/).
+### Product Ownership and Management
+
+- Sort a long list of ideas into what to build first, and write down why
+- Weigh trade-offs and say plainly what I chose not to do
+- Measure whether a decision worked, and report the numbers honestly
+- Next: requirements with acceptance criteria, and a metrics case study
+
+### Product Makeover and Design
+
+- Take a public app apart: what works, what does not, what to improve
+- Build prototypes you can click, in HTML and CSS
+- Plan how to test a design with real people
+- These pieces are planned and come next
+
+### Quality and Risk Assurance
+
+- Decide what to test first when time is short
+- Automate regression tests so a release does not depend on a week of manual checks
+- Tell the people who decide what was and was not covered
+- Review AI-written work before it is trusted
+
+### Training
+
+- Design courses, lesson plans, quizzes and scoring guides
+- Teach hands-on, so people practise instead of only watching
+- Check that people learned, then improve the next run
+- See the [training portfolio](https://rizvihiqrar.github.io/training-portfolio/)
 
 ## How I Work
 
