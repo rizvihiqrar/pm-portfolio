@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { rewriteHref, renderMarkdown, buildSite, checkSite, repoRoot, pageHtml, PUBLISHED_FILES, contactHtml, previewKey } from './build.mjs';
+import { rewriteHref, renderMarkdown, buildSite, checkSite, repoRoot, pageHtml, escapeHtml, PUBLISHED_FILES, contactHtml, previewKey } from './build.mjs';
 
 const config = JSON.parse(fs.readFileSync(new URL('./site.json', import.meta.url), 'utf8'));
 
@@ -221,7 +221,7 @@ test('the filter chips stay hidden until the page script reveals them, so nothin
 test('the filter group is named after what the cards are filtered by', (t) => {
   const out = scratch(t);
   buildSite({ root: repoRoot, out, config });
-  assert.match(fs.readFileSync(path.join(out, 'index.html'), 'utf8'), new RegExp(`aria-label="Filter by ${config.filterLabel}"`));
+  assert.ok(fs.readFileSync(path.join(out, 'index.html'), 'utf8').includes(`aria-label="Filter by ${escapeHtml(config.filterLabel)}"`));
   const noLabel = scratch(t);
   buildSite({ root: repoRoot, out: noLabel, config: { ...config, filterLabel: undefined } });
   assert.match(fs.readFileSync(path.join(noLabel, 'index.html'), 'utf8'), /aria-label="Filter by Topic"/);
