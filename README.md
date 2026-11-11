@@ -24,7 +24,7 @@ Click a case study to open its page on the site.
 
 ## How Each Study Is Built
 
-- **Problem:** what was wrong or unknown, in plain words
+- **Problem:** what was wrong or unknown, in everyday words
 - **Constraints:** the time, people, money and rules I could not change
 - **The method:** what I did and why, not only the result
 - **What I measured:** the numbers, where they came from, and anything that surprised me

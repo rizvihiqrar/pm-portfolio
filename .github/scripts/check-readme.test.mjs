@@ -16,7 +16,7 @@ function tree(t, files) {
   return root;
 }
 const caseProblem = (heading, word) => `README.md: the heading "${heading}" is not in title case ("${word}"): capitalize it, or add it to LOWERCASE_NAMES if it is a name written in lower case`;
-const front = (count, links = '') => `# Front
+const front = (links = '') => `# Front
 ${links}`;
 
 test('web links, anchors and web images are not checked', () => {
@@ -32,57 +32,57 @@ test('a target with parentheses, a title, angle brackets and a malformed percent
 });
 
 test('a README that links every case study is fine (also with a ./ prefix)', (t) => {
-  const root = tree(t, { 'README.md': front(1, '[One](./case-studies/01-one.md)'), 'case-studies/01-one.md': '# One' });
+  const root = tree(t, { 'README.md': front('[One](./case-studies/01-one.md)'), 'case-studies/01-one.md': '# One' });
   assert.deepEqual(findProblems(root), []);
 });
 
 test('a link to a missing file is reported', (t) => {
-  const root = tree(t, { 'README.md': front(0, '[x](nope.md)') });
+  const root = tree(t, { 'README.md': front('[x](nope.md)') });
   assert.deepEqual(findProblems(root), ['README.md links to nope.md, which does not exist']);
 });
 
 test('a broken link inside a case study is reported, resolved from that file', (t) => {
-  const root = tree(t, { 'README.md': front(1, '[a](case-studies/01-a.md)'), 'case-studies/01-a.md': '[gone](../docs/missing.md) [ok](02-b.md)', 'case-studies/02-b.md': '# H' });
+  const root = tree(t, { 'README.md': front('[a](case-studies/01-a.md)'), 'case-studies/01-a.md': '[gone](../docs/missing.md) [ok](02-b.md)', 'case-studies/02-b.md': '# H' });
   assert.deepEqual(findProblems(root), ['case-studies/01-a.md links to ../docs/missing.md, which does not exist', 'case-studies/02-b.md exists but the front README does not link to it']);
 });
 
 test('a link with the wrong letter case is reported, because GitHub is case-sensitive', (t) => {
-  const root = tree(t, { 'README.md': front(0, '[x](Notes.md)'), 'notes.md': '# N' });
+  const root = tree(t, { 'README.md': front('[x](Notes.md)'), 'notes.md': '# N' });
   assert.deepEqual(findProblems(root), ['README.md links to Notes.md, which does not exist']);
 });
 
 test('a case study the README does not mention is reported (the break: add a piece, forget the link)', (t) => {
-  const root = tree(t, { 'README.md': front(1), 'case-studies/02-two.md': '# Two' });
+  const root = tree(t, { 'README.md': front(), 'case-studies/02-two.md': '# Two' });
   assert.deepEqual(findProblems(root), ['case-studies/02-two.md exists but the front README does not link to it']);
 });
 
 test('a template or notes file in case-studies is not a case study', (t) => {
-  const root = tree(t, { 'README.md': front(0), 'case-studies/TEMPLATE.md': '# T', 'case-studies/README.md': '# R' });
+  const root = tree(t, { 'README.md': front(), 'case-studies/TEMPLATE.md': '# T', 'case-studies/README.md': '# R' });
   assert.deepEqual(findProblems(root), []);
 });
 
 test('a repository with no case-studies folder yet is fine', (t) => {
-  const root = tree(t, { 'README.md': front(0) });
+  const root = tree(t, { 'README.md': front() });
   assert.deepEqual(findProblems(root), []);
 });
 
 test('a link to a heading that exists passes, in the same file and in another file', (t) => {
-  const root = tree(t, { 'README.md': front(0, '[a](#find-what-fits-you) [b](other.md#words-used-here)') + '\n## Find What Fits You\n', 'other.md': '# Other\n## Words Used Here\n' });
+  const root = tree(t, { 'README.md': front('[a](#find-what-fits-you) [b](other.md#words-used-here)') + '\n## Find What Fits You\n', 'other.md': '# Other\n## Words Used Here\n' });
   assert.deepEqual(findProblems(root), []);
 });
 
 test('a link to a heading that is not there is reported (the break: rename a heading, keep the old link)', (t) => {
-  const root = tree(t, { 'README.md': front(0, '[a](#coming-next)') + '\n## Related Work\n' });
+  const root = tree(t, { 'README.md': front('[a](#coming-next)') + '\n## Related Work\n' });
   assert.deepEqual(findProblems(root), ['README.md links to #coming-next, but README.md has no such heading']);
 });
 
 test('a repeated heading gets -1 as on GitHub', (t) => {
-  const root = tree(t, { 'README.md': front(0, '[a](#notes-1)') + '\n## Notes\n## Notes\n' });
+  const root = tree(t, { 'README.md': front('[a](#notes-1)') + '\n## Notes\n## Notes\n' });
   assert.deepEqual(findProblems(root), []);
 });
 
 test('Markdown under .github is not part of the portfolio and is not checked', (t) => {
-  const root = tree(t, { 'README.md': front(0), '.github/pull_request_template.md': '[x](nowhere.md)' });
+  const root = tree(t, { 'README.md': front(), '.github/pull_request_template.md': '[x](nowhere.md)' });
   assert.deepEqual(findProblems(root), []);
 });
 
@@ -92,17 +92,17 @@ test('the real repository passes its own check (also proves the script finds the
 });
 
 test('headings in title case pass, including small words in the middle and hyphenated words', (t) => {
-  const root = tree(t, { 'README.md': front(0) + '\n## Find What Fits You\n## Quiz and Answer Key\n## Is 7.4% a Good Result?\n### 1. Prioritizing a Backlog of 570 Ideas\n# Plan: A Two-Week Course\n' });
+  const root = tree(t, { 'README.md': front() + '\n## Find What Fits You\n## Quiz and Answer Key\n## Is 7.4% a Good Result?\n### 1. Prioritizing a Backlog of 570 Ideas\n# Plan: A Two-Week Course\n' });
   assert.deepEqual(findProblems(root), []);
 });
 
 test('a heading that is not in title case is reported (the break: write a heading in sentence case)', (t) => {
-  const root = tree(t, { 'README.md': front(0) + '\n## Find what fits you\n' });
+  const root = tree(t, { 'README.md': front() + '\n## Find what fits you\n' });
   assert.deepEqual(findProblems(root), [caseProblem('Find what fits you', 'what')]);
 });
 
 test('the word after a colon, the first word and the last word must be capitalized', (t) => {
-  const root = tree(t, { 'README.md': front(0) + '\n## Plan: a Course\n## the Start\n## Where It Goes to\n' });
+  const root = tree(t, { 'README.md': front() + '\n## Plan: a Course\n## the Start\n## Where It Goes to\n' });
   assert.deepEqual(findProblems(root), [
     caseProblem('Plan: a Course', 'a'),
     caseProblem('the Start', 'the'),
@@ -111,28 +111,28 @@ test('the word after a colon, the first word and the last word must be capitaliz
 });
 
 test('the banned phrase is reported anywhere in the text, but not inside code', (t) => {
-  const bad = tree(t, { 'README.md': front(0) + '\nAn In Plain English section.\n' });
+  const bad = tree(t, { 'README.md': front() + '\nAn In Plain English section.\n' });
   assert.deepEqual(findProblems(bad), ['README.md uses the banned phrase "plain English"; use "Overview" for a heading, or describe it differently']);
-  const ok = tree(t, { 'README.md': front(0) + '\nThe phrase `plain English` in code is an example.\n' });
+  const ok = tree(t, { 'README.md': front() + '\nThe phrase `plain English` in code is an example.\n' });
   assert.deepEqual(findProblems(ok), []);
 });
 
 test('hyphenated words, tool names written in lower case, and C# are fine', (t) => {
-  const root = tree(t, { 'README.md': front(0) + '\n## Low-fidelity Prototype\n## Running k6 Against the API\n## Intro to C#\n## What to Do If It Fails\n## Why npm Audit Matters\n' });
+  const root = tree(t, { 'README.md': front() + '\n## Low-fidelity Prototype\n## Running k6 Against the API\n## Intro to C#\n## What to Do If It Fails\n## Why npm Audit Matters\n' });
   assert.deepEqual(findProblems(root), []);
 });
 
 test('files with Windows line endings are checked the same way', (t) => {
-  const root = tree(t, { 'README.md': front(0) + '\r\n## Find what fits you\r\n' });
+  const root = tree(t, { 'README.md': front() + '\r\n## Find what fits you\r\n' });
   assert.deepEqual(findProblems(root), [caseProblem('Find what fits you', 'what')]);
 });
 
 test('a heading inside a code fence is not checked', (t) => {
-  const root = tree(t, { 'README.md': front(0) + '\n```md\n## not a real heading\n```\n' });
+  const root = tree(t, { 'README.md': front() + '\n```md\n## not a real heading\n```\n' });
   assert.deepEqual(findProblems(root), []);
 });
 
 test('a heading that ends with code is judged on its last real word', (t) => {
-  const root = tree(t, { 'README.md': front(0) + '\n## Where It Goes to `x`\n' });
+  const root = tree(t, { 'README.md': front() + '\n## Where It Goes to `x`\n' });
   assert.deepEqual(findProblems(root), [caseProblem('Where It Goes to', 'to')]);
 });

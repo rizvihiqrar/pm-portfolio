@@ -177,3 +177,17 @@ test('a collision stops the build before anything is written', (t) => {
 test('csv and txt files are not published', () => {
   for (const no of ['data.csv', 'notes.txt']) assert.ok(!PUBLISHED_FILES.test(no), no);
 });
+
+test('every link in the front README that points into the live site is a real page, and its heading exists', (t) => {
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config });
+  const readme = fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8');
+  const own = [...readme.matchAll(/\]\((https:\/\/rizvihiqrar\.github\.io\/[^)\s]+)\)/g)].map((m) => m[1]).filter((u) => u.startsWith(config.siteUrl));
+  assert.ok(own.length > 0, 'the README links into its own site');
+  for (const url of own) {
+    const [rel, anchor] = url.slice(config.siteUrl.length).split('#');
+    const target = rel === '' || rel.endsWith('/') ? path.join(out, rel, 'index.html') : path.join(out, rel);
+    assert.ok(fs.existsSync(target), `${url} is a page in the built site`);
+    if (anchor) assert.match(fs.readFileSync(target, 'utf8'), new RegExp(`\\sid="${anchor}"`), `${url} has the heading #${anchor}`);
+  }
+});
