@@ -13,7 +13,7 @@ function scratch(t) {
   return dir;
 }
 const read = (out, rel) => fs.readFileSync(path.join(out, rel), 'utf8');
-const small = (cards) => ({ ...config, nav: [{ label: 'Home', href: 'index.html' }], aboutHref: 'index.html', filterTags: undefined, cards, courseNav: [] });
+const small = (cards) => ({ ...config, nav: [{ label: 'Home', href: 'index.html' }], aboutHref: 'index.html', cards, courseNav: [] });
 const card = (extra = {}) => ({ label: 'Case Study', title: 'C', path: 'case-studies/01-a.md', tags: ['Product Owner'], summary: 's', button: 'Open', ...extra });
 
 test('Markdown links become site links; web links and anchors are left alone', () => {
@@ -41,53 +41,6 @@ test('the real repository builds into a site where every link, image and anchor 
   assert.ok(pages.includes('case-studies/01-prioritizing-the-ideas-plan.html'));
   assert.ok(pages.includes('docs/about.html'));
   assert.deepEqual(checkSite(out), []);
-});
-
-test('the home page has a filter chip for each role, All pressed first, and a status line for screen readers', (t) => {
-  const out = scratch(t);
-  buildSite({ root: repoRoot, out, config });
-  const html = read(out, 'index.html');
-  assert.match(html, /<button type="button" class="filter" data-filter="all" aria-pressed="true">All<\/button>/);
-  for (const role of config.filterTags) assert.match(html, new RegExp(`class="filter" data-filter="[a-z-]+" aria-pressed="false">${role}<`));
-  assert.match(html, /id="filter-status" class="sr-only" role="status" aria-live="polite"/);
-  assert.equal((html.match(/<article class="card/g) ?? []).length, config.cards.length);
-});
-
-test('every card carries the tags its filter chip looks for', () => {
-  const chips = new Set(config.filterTags);
-  for (const c of config.cards) {
-    assert.ok(c.tags.length > 0, `${c.title} has tags`);
-    for (const tag of c.tags) assert.ok(chips.has(tag), `${c.title}: "${tag}" has a filter chip`);
-  }
-});
-
-test('a planned card has no link, and says so; a ready card links to its case study', (t) => {
-  const out = scratch(t);
-  buildSite({ root: repoRoot, out, config });
-  const html = read(out, 'index.html');
-  const planned = config.cards.filter((c) => c.status === 'planned');
-  assert.ok(planned.length > 0);
-  assert.equal((html.match(/Coming Soon/g) ?? []).length, planned.length);
-  assert.match(html, /<a class="btn" href="case-studies\/01-prioritizing-the-ideas-plan\.html">View Case Study<\/a>/);
-});
-
-test('every ready card has a preview image that exists, with alt text', () => {
-  for (const c of config.cards.filter((x) => x.status !== 'planned')) {
-    assert.ok(c.image && c.imageAlt, `${c.title} has an image and alt text`);
-    assert.ok(fs.existsSync(path.join(repoRoot, c.image)), `${c.image} exists (run: npm run previews)`);
-  }
-});
-
-test('the contact block has the email and LinkedIn buttons, on the home page and in the footer of every page', (t) => {
-  const out = scratch(t);
-  buildSite({ root: repoRoot, out, config });
-  assert.match(contactHtml(config), /href="mailto:[^"]+">Send an Email<\/a><a class="btn btn-secondary" href="https:\/\/www\.linkedin\.com\/in\/[^"]+">View LinkedIn<\/a>/);
-  for (const rel of ['index.html', 'docs/about.html', 'case-studies/01-prioritizing-the-ideas-plan.html']) {
-    const html = read(out, rel);
-    assert.match(html, /href="mailto:/);
-    assert.match(html, /linkedin\.com\/in\//);
-  }
-  assert.match(read(out, 'index.html'), /<section id="contact" class="section">/);
 });
 
 test('a link to a page that is not in the site is reported (the break: a page is renamed, its link is not)', (t) => {
@@ -209,37 +162,64 @@ test('table names are decoded once, a second table under one heading is numbered
   assert.doesNotMatch(html, /&amp;amp;/);
 });
 
-test('the filter chips stay hidden until the page script reveals them, so nothing useless shows without JavaScript', (t) => {
-  const out = scratch(t);
-  buildSite({ root: repoRoot, out, config });
-  const html = fs.readFileSync(path.join(out, 'index.html'), 'utf8');
-  assert.match(html, /<div class="filters" role="group" aria-label="Filter by [A-Za-z ]+" hidden>/);
-  assert.match(html, /g\.hidden=false/);
-  assert.match(html, /\(c\.getAttribute\('data-tags'\)\|\|''\)/);
-});
-
-test('the filter group is named after what the cards are filtered by', (t) => {
-  const out = scratch(t);
-  buildSite({ root: repoRoot, out, config });
-  assert.ok(fs.readFileSync(path.join(out, 'index.html'), 'utf8').includes(`aria-label="Filter by ${escapeHtml(config.filterLabel)}"`));
-  const noLabel = scratch(t);
-  buildSite({ root: repoRoot, out: noLabel, config: { ...config, filterLabel: undefined } });
-  assert.match(fs.readFileSync(path.join(noLabel, 'index.html'), 'utf8'), /aria-label="Filter by Topic"/);
-});
-
 test('the About page uses the same email and LinkedIn address as the footer and contact buttons', () => {
   const about = fs.readFileSync(path.join(repoRoot, 'docs/about.md'), 'utf8');
   assert.ok(about.includes(`mailto:${config.contact.email}`), 'the email matches site.json');
   assert.ok(about.includes(config.contact.linkedin), 'the LinkedIn address matches site.json');
 });
 
-test('the stylesheet really hides the filter chips while they have the hidden attribute (the markup alone is not enough)', () => {
-  const css = fs.readFileSync(new URL('./site.css', import.meta.url), 'utf8');
-  assert.match(css, /\.filters\[hidden\][^{]*\{[^}]*display:\s*none/);
-});
-
 test('two sections that happen to share a heading each get their own table name, not a number', () => {
   const { html } = renderMarkdown('## A\n\n## Results\n\n| X |\n|---|\n| 1 |\n\n## B\n\n## Results\n\n| Y |\n|---|\n| 2 |\n');
   assert.equal((html.match(/aria-label="Results table"/g) ?? []).length, 2);
   assert.doesNotMatch(html, /Results table 2/);
+});
+
+test('the home page is a plain list: one linked entry with a thumbnail and title for each finished piece, and no filters, buttons or hero', (t) => {
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config });
+  const html = read(out, 'index.html');
+  const ready = config.cards.filter((c) => c.status !== 'planned');
+  assert.equal((html.match(/<a class="work" href=/g) ?? []).length, ready.length);
+  for (const c of ready) {
+    assert.ok(html.includes(`href="${rewriteHref(c.path)}"`), `${c.title} links to its page`);
+    assert.ok(html.includes(`<span class="work-title">${escapeHtml(c.title)}</span>`), `${c.title} is listed`);
+  }
+  assert.doesNotMatch(html, /class="filter|class="btn|class="hero|Get in Touch/);
+});
+
+test('a planned piece is not on the home page, so nothing there reads Coming Soon (the break: list every card)', (t) => {
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config });
+  const html = read(out, 'index.html');
+  const planned = config.cards.filter((c) => c.status === 'planned');
+  assert.ok(planned.length > 0, 'the plan stays in site.json');
+  for (const c of planned) assert.ok(!html.includes(escapeHtml(c.title)), `${c.title} is not listed yet`);
+  assert.doesNotMatch(html, /Coming Soon/);
+});
+
+test('every ready card has a preview image that exists, with alt text', () => {
+  for (const c of config.cards.filter((x) => x.status !== 'planned')) {
+    assert.ok(c.image && c.imageAlt, `${c.title} has an image and alt text`);
+    assert.ok(fs.existsSync(path.join(repoRoot, c.image)), `${c.image} exists (run: npm run previews)`);
+  }
+});
+
+test('the email and LinkedIn links are at the top of the home page and in the footer of every page', (t) => {
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config });
+  assert.match(contactHtml(config), /^<p class="links"><a href="mailto:[^"]+">Email<\/a><a href="https:\/\/www\.linkedin\.com\/in\/[^"]+">LinkedIn<\/a><a href="[^"]+">About Me<\/a><a href="https:\/\/github\.com\/rizvihiqrar\/[^"]+">GitHub<\/a><\/p>$/);
+  const top = read(out, 'index.html').split('<section id=')[0];
+  assert.match(top, /href="mailto:/);
+  assert.match(top, /linkedin\.com\/in\//);
+  for (const rel of ['index.html', 'docs/about.html', 'case-studies/01-prioritizing-the-ideas-plan.html']) {
+    const html = read(out, rel);
+    assert.match(html.split('<footer')[1], /href="mailto:/);
+    assert.match(html.split('<footer')[1], /linkedin\.com\/in\//);
+  }
+});
+
+test('the home page carries no leftover filter markup', (t) => {
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config });
+  assert.doesNotMatch(read(out, 'index.html'), /data-filter|filter-status/);
 });

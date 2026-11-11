@@ -5,8 +5,7 @@
   "footerNote": "Real numbers from my own projects.",
   "contact": {
     "email": "iqrar.h.rizvi@gmail.com",
-    "linkedin": "https://www.linkedin.com/in/iqrar-rizvi",
-    "intro": "Hiring, or curious how I work? Send me a message."
+    "linkedin": "https://www.linkedin.com/in/iqrar-rizvi"
   },
   "include": [
     "^case-studies$",
@@ -14,35 +13,18 @@
   ],
   "nav": [
     {
-      "label": "Case Studies",
-      "href": "index.html#case-studies"
-    },
-    {
       "label": "About Me",
       "href": "docs/about.html"
     },
     {
       "label": "How It Works",
       "href": "docs/overview.html"
-    },
-    {
-      "label": "Contact",
-      "href": "index.html#contact"
     }
   ],
   "sectionId": "case-studies",
   "sectionTitle": "Case Studies",
-  "sectionIntro": "Each one starts with a problem, shows the decisions, and ends with what I would change. Filter by role.",
-  "primaryButton": "Browse Case Studies",
   "aboutButton": "About Me",
   "aboutHref": "docs/about.html",
-  "filterTags": [
-    "Product Owner",
-    "Product Manager",
-    "Front End",
-    "Design",
-    "Quality and Risk"
-  ],
   "cards": [
     {
       "label": "Case Study",
@@ -120,6 +102,5 @@
     }
   ],
   "courseNav": [],
-  "siteUrl": "https://rizvihiqrar.github.io/product-portfolio/",
-  "filterLabel": "Role"
+  "siteUrl": "https://rizvihiqrar.github.io/product-portfolio/"
 }
