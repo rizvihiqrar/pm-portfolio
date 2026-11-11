@@ -12,8 +12,8 @@ Click a case study to open its page on the site.
 
 | Case Study | Goals | Open |
 |---|---|---|
-| [**Prioritizing a Backlog of 570 Ideas**](https://rizvihiqrar.github.io/product-portfolio/case-studies/01-prioritizing-the-ideas-plan.html) | Decide what to build first when there are far more ideas than time, and keep the progress number honest | [Source](case-studies/01-prioritizing-the-ideas-plan.md) |
-| [**Deciding What to Test When Time Is Short**](https://rizvihiqrar.github.io/product-portfolio/case-studies/02-deciding-what-to-test-when-time-is-short.html) | Choose what to test first, and tell the person who decides to ship what was not covered | [Source](case-studies/02-deciding-what-to-test-when-time-is-short.md) |
+| [**Organizing Ideas**](https://rizvihiqrar.github.io/product-portfolio/case-studies/01-prioritizing-the-ideas-plan.html) | Decide what to build first when there are far more ideas than time, and keep the progress number honest | [Source](case-studies/01-prioritizing-the-ideas-plan.md) |
+| [**Testing Decisions**](https://rizvihiqrar.github.io/product-portfolio/case-studies/02-deciding-what-to-test-when-time-is-short.html) | Choose what to test first, and tell the person who decides to ship what was not covered | [Source](case-studies/02-deciding-what-to-test-when-time-is-short.md) |
 
 ## What I Do
 
