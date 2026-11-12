@@ -640,3 +640,80 @@ test('code boxes inside the page text keep the title bar clear of the first line
   const css = fs.readFileSync(new URL('./stage.css', import.meta.url), 'utf8');
   assert.match(css, /\.stage \.prose pre\.code:not\(\.mermaid\)\s*\{\s*padding-top:\s*52px/);
 });
+
+test('a project with a full version folds it under the short one: closed, with ids of its own, out of the left list, and with no stray comment', (t) => {
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config: stage });
+  const withFull = ready.filter((c) => c.full);
+  assert.ok(withFull.length, 'at least one finished project has a full version');
+  const home = read(out, 'index.html');
+  assert.equal((home.match(/<details class="fold">/g) ?? []).length, withFull.length, 'one closed fold per project on the home page');
+  for (const c of withFull) {
+    const page = read(out, c.path.replace(/README\.md$/i, 'index.html').replace(/\.md$/, '.html'));
+    assert.match(page, /<details class="fold"><summary>Read the Full Version<\/summary>/, `${c.title}: its own page has the fold`);
+    assert.doesNotMatch(page + home, /<!-- \/?site:fold/, 'no site comment is left on a page');
+    const short = fs.readFileSync(path.join(repoRoot, c.path), 'utf8');
+    const only = [...fs.readFileSync(path.join(repoRoot, c.full), 'utf8').matchAll(/^## (.+)$/gm)].map((m) => m[1].trim()).filter((h) => !short.includes(`## ${h}`));
+    assert.ok(only.length, `${c.title}: the full version has a part the short one leaves out`);
+    for (const nav of [home, page].map((h) => h.split('<nav class="side-nav"')[1].split('</nav>')[0])) {
+      for (const h of only) assert.ok(!nav.includes(`>${escapeHtml(h)}</a>`), `${c.title}: "${h}" stays out of the left list`);
+    }
+  }
+});
+
+test('a site:fold block with no full version fails the build', (t) => {
+  const first = ready.find((c) => c.full);
+  const without = { ...stage, cards: stage.cards.map((c) => (c === first ? { ...c, full: undefined } : c)) };
+  assert.throws(() => buildSite({ root: repoRoot, out: scratch(t), config: without }), /has a site:fold block, but its card has no "full" file/);
+});
+
+test('no page of the built site uses an id twice, so every anchor goes to one place (the break: fold the full version without ids of its own)', (t) => {
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config: stage });
+  const pages = [];
+  (function walkDir(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (e.isDirectory()) walkDir(path.join(dir, e.name));
+      else if (e.name.endsWith('.html')) pages.push(path.join(dir, e.name));
+    }
+  })(out);
+  assert.ok(pages.length > 3);
+  for (const page of pages) {
+    const ids = [...fs.readFileSync(page, 'utf8').matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
+    assert.deepEqual(ids.filter((id, i) => ids.indexOf(id) !== i), [], `${path.relative(out, page)}: an id is used twice`);
+  }
+});
+
+test('diagrams: the old layout draws them on load; the stage layout draws only the visible ones, and the rest when their fold opens', (t) => {
+  const pages = [];
+  for (const [theme, cfg] of [['default', config], ['stage', stage]]) {
+    const out = scratch(t);
+    buildSite({ root: repoRoot, out, config: cfg });
+    (function walkDir(dir) {
+      for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+        if (e.isDirectory()) walkDir(path.join(dir, e.name));
+        else if (e.name.endsWith('.html')) {
+          const html = fs.readFileSync(path.join(dir, e.name), 'utf8');
+          if (html.includes('mermaid.initialize')) pages.push({ theme, html });
+        }
+      }
+    })(out);
+  }
+  for (const { theme, html } of pages) {
+    if (theme === 'default') assert.match(html, /startOnLoad:true/, 'the old layout draws on load');
+    else {
+      assert.match(html, /startOnLoad:false/);
+      assert.match(html, /mermaid\.run\(/);
+      assert.match(html, /addEventListener\('toggle'/, 'a fold draws its diagrams when it opens');
+    }
+  }
+});
+
+test('every stage page can open a fold that a link points into, and the theme switch keeps folds open across its reload', (t) => {
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config: stage });
+  const html = read(out, 'index.html');
+  assert.match(html, /closest\('details'\)[\s\S]*hashchange/, 'a link into a closed fold opens it');
+  const toggle = html.match(/<script>\(function\(\)\{var b=document\.getElementById\('theme-toggle'\)[\s\S]*?<\/script>/)[0];
+  assert.match(toggle, /foldsOpen[\s\S]*location\.reload\(\)/, 'open folds are saved before the reload');
+});

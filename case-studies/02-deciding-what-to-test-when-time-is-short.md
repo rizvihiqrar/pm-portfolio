@@ -50,3 +50,9 @@ An illustration of the prompt above: the hours are an example, the 16 of 65 is r
 - Counting escaped bugs by tier will show whether 60/30/10 is the right split, and turn a rule of thumb into a measured one.
 - Writing the reason for each tier beside the item lets others challenge it and makes the order easier to trust.
 - Trying the summary on two releases will show what readers still need from it.
+
+<!-- site:fold -->
+
+[Read the full version](full/02-deciding-what-to-test-when-time-is-short.md)
+
+<!-- /site:fold -->

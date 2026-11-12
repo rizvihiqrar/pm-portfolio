@@ -51,3 +51,9 @@ An illustration of the prompt above, using the real counts.
 - A simple score (fit times size, minus dependency risk) will make the order defensible, not gut feel.
 - An ID and a size the day each idea is written will close the gap in the 13 unnumbered sections.
 - Re-checking sizes on build day will shrink the Medium total, which was sized from titles.
+
+<!-- site:fold -->
+
+[Read the full version](full/01-prioritizing-the-ideas-plan.md)
+
+<!-- /site:fold -->

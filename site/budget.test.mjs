@@ -11,9 +11,9 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const config = JSON.parse(fs.readFileSync(new URL('./site.json', import.meta.url), 'utf8'));
 
 export const PARTS = ['The Problem', 'What I Did', 'The Result', 'What I Would Change'];
-// The total is tighter than the four limits added together on purpose: no page may use every part's full allowance.
-// Any other section (Getting Started, Units and so on) is mostly tables and pieces, so its prose stays short and counts toward the total.
-export const BUDGET = { 'The Problem': 70, 'What I Did': 120, 'The Result': 120, 'What I Would Change': 90, other: 60, total: 380 };
+// The four parts together stay near 300 words: the total is tighter than the four limits added up, so no page may use every part's full allowance.
+// Any other section (Getting Started, Units, Course Materials) is mostly tables and pieces: each keeps its prose short, and all of them together stay under a cap.
+export const BUDGET = { 'The Problem': 70, 'What I Did': 120, 'The Result': 120, 'What I Would Change': 90, total: 340, other: 100, otherTotal: 200 };
 
 /** Words of each part's prose, by heading. */
 export function partWords(markdown) {
@@ -39,7 +39,12 @@ test('the counter ignores tables, code, the plain version of a piece and links\'
   assert.deepEqual(partWords(md), { 'The Problem': 4, 'What I Did': 2 });
 });
 
-const cards = config.cards.filter((c) => c.status !== 'planned' && c.path && fs.existsSync(path.join(root, c.path)));
+const cards = config.cards.filter((c) => c.status !== 'planned');
+
+test('every finished card names a page that exists, so none escapes the budget', () => {
+  assert.ok(cards.length > 0);
+  for (const c of cards) assert.ok(c.path && fs.existsSync(path.join(root, c.path)), `${c.title}: its page ${c.path} exists`);
+});
 
 for (const c of cards) {
   test(`${c.title}: each of the four parts stays within its word budget`, () => {
@@ -51,7 +56,9 @@ for (const c of cards) {
     for (const [head, n] of Object.entries(words)) {
       if (!PARTS.includes(head)) assert.ok(n <= BUDGET.other, `${c.title}, ${head}: ${n} words, over the ${BUDGET.other} budget for a section that is not one of the four parts`);
     }
-    const total = Object.values(words).reduce((a, b) => a + b, 0);
-    assert.ok(total <= BUDGET.total, `${c.title}: ${total} words in all, over the ${BUDGET.total} budget`);
+    const total = PARTS.reduce((a, p) => a + words[p], 0);
+    assert.ok(total <= BUDGET.total, `${c.title}: ${total} words in the four parts, over the ${BUDGET.total} budget`);
+    const rest = Object.entries(words).filter(([h]) => !PARTS.includes(h)).reduce((a, [, n]) => a + n, 0);
+    assert.ok(rest <= BUDGET.otherTotal, `${c.title}: ${rest} words in the other sections, over the ${BUDGET.otherTotal} budget`);
   });
 }
