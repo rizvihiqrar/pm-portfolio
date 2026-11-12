@@ -10,12 +10,16 @@
 | The honest part | Adding ideas lowered the percent done, and I left it that way |
 | Read time | About 5 minutes |
 
+<!-- site:funnel -->
+
 ```mermaid
 flowchart LR
   A[843 entries] -->|minus 65 notes and 209 duplicates, plus 1 project kept in the roadmap| C[570 real ideas]
   C --> D[Sorted by fit, size, dependency]
   D --> E[42 built so far]
 ```
+
+<!-- /site:funnel -->
 
 ## The Problem
 
