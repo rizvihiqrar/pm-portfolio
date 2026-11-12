@@ -18,10 +18,6 @@
     {
       "label": "About Me",
       "href": "docs/about.html"
-    },
-    {
-      "label": "How It Works",
-      "href": "docs/overview.html"
     }
   ],
   "sectionId": "case-studies",
@@ -43,10 +39,108 @@
       "button": "View Case Study",
       "visual": "docs/assets/visuals/01-prioritizing.svg",
       "visualAlt": "Looping illustration: 843 entries become 570 ideas, sorted into small, medium and large.",
-      "code": "843 entries -> 570 real ideas -> sorted by fit, size and dependency",
+      "code": "Remove notes and duplicates from ideas.md, tag each idea, and print the count after each step.",
       "codeLang": "text",
       "oneLiner": "843 raw entries became 570 real ideas, sorted by size, with a progress number that stays honest as the list grows.",
-      "codeLabel": "Result"
+      "codeLabel": "Prompt",
+      "components": {
+        "runs": {
+          "ideas": {
+            "tab": "ideas.md",
+            "chat": "Remove notes and duplicates, tag each idea, and print the count after each step.",
+            "alt": "Animated result: 843 entries, minus 65 notes and 209 duplicates, become 570 ideas; 171 are for first-choice roles and 29 are built.",
+            "lines": [
+              {
+                "segs": [
+                  [
+                    "p",
+                    "$"
+                  ],
+                  [
+                    "k",
+                    "sort-ideas"
+                  ],
+                  [
+                    "",
+                    "ideas.md"
+                  ]
+                ]
+              },
+              {
+                "segs": [
+                  [
+                    "g",
+                    "read"
+                  ],
+                  [
+                    "",
+                    "843 entries"
+                  ]
+                ]
+              },
+              {
+                "segs": [
+                  [
+                    "g",
+                    "removed"
+                  ],
+                  [
+                    "",
+                    "65 notes and 209 duplicates"
+                  ]
+                ]
+              },
+              {
+                "segs": [
+                  [
+                    "n",
+                    "570"
+                  ],
+                  [
+                    "",
+                    "real ideas"
+                  ]
+                ],
+                "bar": {
+                  "c": "a",
+                  "w": 68
+                }
+              },
+              {
+                "segs": [
+                  [
+                    "n",
+                    "171"
+                  ],
+                  [
+                    "",
+                    "for first-choice roles"
+                  ]
+                ],
+                "bar": {
+                  "c": "a",
+                  "w": 20
+                }
+              },
+              {
+                "segs": [
+                  [
+                    "n",
+                    "29"
+                  ],
+                  [
+                    "",
+                    "built (17%)"
+                  ]
+                ],
+                "bar": {
+                  "w": 17
+                }
+              }
+            ]
+          }
+        }
+      }
     },
     {
       "label": "Case Study",
@@ -62,10 +156,112 @@
       "button": "View Case Study",
       "visual": "docs/assets/visuals/02-testing.svg",
       "visualAlt": "Looping illustration: test time split 60, 30 and 10 percent across critical, medium and low flows, then a four-line release summary.",
-      "code": "Critical first: 60%\nMedium: 30%\nLow: 10%",
+      "code": "Plan 8 hours: critical 60%, medium 30%, low 10%. Then write the four-line release summary.",
       "codeLang": "text",
       "oneLiner": "75% fewer live-site test runs on pull requests, and a four-line summary for whoever decides to ship.",
-      "codeLabel": "Rule"
+      "codeLabel": "Prompt",
+      "components": {
+        "runs": {
+          "testing": {
+            "tab": "release-notes.md",
+            "chat": "Plan 8 hours: critical 60%, medium 30%, low 10%. Then write the four-line summary.",
+            "alt": "Animated result: eight hours split 4.8 critical, 2.4 medium and 0.8 low, a pull request runs 16 of 65 browser tests, then a four-line summary.",
+            "lines": [
+              {
+                "segs": [
+                  [
+                    "p",
+                    "$"
+                  ],
+                  [
+                    "k",
+                    "plan-release"
+                  ],
+                  [
+                    "",
+                    "--hours 8"
+                  ]
+                ]
+              },
+              {
+                "segs": [
+                  [
+                    "g",
+                    "critical"
+                  ],
+                  [
+                    "",
+                    "60%  4.8 h"
+                  ]
+                ],
+                "bar": {
+                  "c": "a",
+                  "w": 60
+                }
+              },
+              {
+                "segs": [
+                  [
+                    "g",
+                    "medium"
+                  ],
+                  [
+                    "",
+                    "30%  2.4 h"
+                  ]
+                ],
+                "bar": {
+                  "c": "o",
+                  "w": 30
+                }
+              },
+              {
+                "segs": [
+                  [
+                    "g",
+                    "low"
+                  ],
+                  [
+                    "",
+                    "10%  0.8 h"
+                  ]
+                ],
+                "bar": {
+                  "c": "m",
+                  "w": 10
+                }
+              },
+              {
+                "segs": [
+                  [
+                    "n",
+                    "pull request"
+                  ],
+                  [
+                    "",
+                    "16 of 65 browser tests"
+                  ]
+                ],
+                "bar": {
+                  "w": 25
+                }
+              },
+              {
+                "segs": [
+                  [
+                    "k",
+                    "summary"
+                  ],
+                  [
+                    "",
+                    "tested, not tested, found, recommend"
+                  ]
+                ]
+              }
+            ]
+          }
+        }
+      }
     },
     {
       "label": "Prototype",
