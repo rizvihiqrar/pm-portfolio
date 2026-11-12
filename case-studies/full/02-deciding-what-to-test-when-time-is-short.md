@@ -10,6 +10,8 @@
 | The output | A four-line release summary |
 | Read time | About 4 minutes |
 
+<!-- site:timebar -->
+
 ```mermaid
 flowchart LR
   A[Release ready, time fixed] --> B[Critical flows: about 60% of the time]
@@ -17,6 +19,8 @@ flowchart LR
   C --> D[Low: about 10%]
   D --> E[Four-line summary to the decision maker]
 ```
+
+<!-- /site:timebar -->
 
 ## The Problem
 
@@ -51,6 +55,8 @@ That is parts 1 and 4 of the rule in a simple form: the small critical set (the 
 
 The figures below come from the project's [technical guide](https://github.com/rizvihiqrar/qa-automation-platform/blob/main/TECHNICAL.md) and the script [scripts/test-scope.mjs](https://github.com/rizvihiqrar/qa-automation-platform/blob/main/scripts/test-scope.mjs), as they stood on 2026-11-10. They will change as the project grows.
 
+<!-- site:scope -->
+
 ```mermaid
 flowchart TD
   P[Pull request opened] --> Q{Changes the tests, how they run, or has the full-regression label?}
@@ -59,6 +65,8 @@ flowchart TD
   M[Push to main, nightly run, manual run] --> F
   U[Cannot tell what changed] --> F
 ```
+
+<!-- /site:scope -->
 
 ## What I Measured, and What Surprised Me
 

@@ -139,6 +139,42 @@
               }
             ]
           }
+        },
+        "funnel": {
+          "title": "From the raw list to the ideas that count",
+          "alt": "Funnel: 843 entries, minus 65 notes and 209 duplicates, plus 1 project kept in the roadmap, make 570 real ideas, of which 42 are built.",
+          "asOf": "Counts as of 10 November 2026.",
+          "stages": [
+            {
+              "value": 843,
+              "label": "entries collected"
+            },
+            {
+              "value": 778,
+              "label": "left after notes",
+              "step": "minus 65 notes",
+              "delta": -65
+            },
+            {
+              "value": 569,
+              "label": "left after duplicates",
+              "step": "minus 209 duplicates",
+              "delta": -209
+            },
+            {
+              "value": 570,
+              "label": "real ideas",
+              "step": "plus 1 project kept in the roadmap",
+              "delta": 1,
+              "mark": true
+            },
+            {
+              "value": 42,
+              "label": "built so far",
+              "step": "sorted by fit, size and dependency, then built",
+              "note": "7.4% of the 570"
+            }
+          ]
         }
       },
       "full": "case-studies/full/01-prioritizing-the-ideas-plan.md"
@@ -261,6 +297,129 @@
               }
             ]
           }
+        },
+        "timebar": {
+          "title": "An 8-hour release",
+          "alt": "Eight hours split 60, 30 and 10 percent: 4.8 hours for critical flows, 2.4 for medium and 0.8 for low, then a four-line summary for the person deciding to ship.",
+          "total": 8,
+          "unit": "hours",
+          "segments": [
+            {
+              "name": "Critical",
+              "share": 60,
+              "amount": 4.8,
+              "line": "Flows that touch revenue or the core business process. If these break, the release is not shippable."
+            },
+            {
+              "name": "Medium",
+              "share": 30,
+              "amount": 2.4,
+              "line": "Checked next, only once every critical flow is done."
+            },
+            {
+              "name": "Low",
+              "share": 10,
+              "amount": 0.8,
+              "line": "Whatever time is left. Some may not be reached, and the summary says so."
+            }
+          ],
+          "summary": {
+            "title": "Then four lines for the person deciding to ship",
+            "lines": [
+              [
+                "Tested",
+                "Critical: done. Medium: done. Low: partly done."
+              ],
+              [
+                "Not tested",
+                "Two low-priority screens, not reached: time ran out."
+              ],
+              [
+                "Found",
+                "One medium issue, does not block."
+              ],
+              [
+                "Recommend",
+                "Ship. If the medium issue turns out to affect payments, hold."
+              ]
+            ],
+            "note": "Example wording, not a real release."
+          }
+        },
+        "scope": {
+          "alt": "What the test-scope script runs for six cases: smoke tests only for a plain pull request, the full suite for every other case.",
+          "asOf": "As the script stood on 10 November 2026.",
+          "events": [
+            {
+              "id": "pr",
+              "text": "Pull request opened"
+            },
+            {
+              "id": "main",
+              "text": "Push to main, nightly run or manual run"
+            },
+            {
+              "id": "unknown",
+              "text": "Cannot tell what changed"
+            }
+          ],
+          "check": {
+            "text": "Changes the tests, how they run, or has the full-regression label?",
+            "skipped": "Not asked for this one"
+          },
+          "outcomes": [
+            {
+              "id": "smoke",
+              "text": "Smoke tests only",
+              "detail": "16 of the 65 browser tests"
+            },
+            {
+              "id": "full",
+              "text": "Full suite",
+              "detail": "Everything runs"
+            }
+          ],
+          "scenarios": [
+            {
+              "label": "A pull request",
+              "event": "pr",
+              "check": "no",
+              "outcome": "smoke",
+              "why": "A plain pull request runs only the smoke tests, 16 of the 65 browser tests."
+            },
+            {
+              "label": "It touches the tests",
+              "event": "pr",
+              "check": "yes",
+              "outcome": "full",
+              "why": "A change to the tests, or to how they run, could break the smoke set itself, so everything runs."
+            },
+            {
+              "label": "It has the full-regression label",
+              "event": "pr",
+              "check": "yes",
+              "outcome": "full",
+              "why": "The label is how I ask for everything on a pull request."
+            },
+            {
+              "label": "A push to main",
+              "event": "main",
+              "outcome": "full",
+              "why": "Pushes to the main branch always run everything."
+            },
+            {
+              "label": "The nightly run",
+              "event": "main",
+              "outcome": "full",
+              "why": "Nightly and manual runs always run everything."
+            },
+            {
+              "label": "It cannot tell",
+              "event": "unknown",
+              "outcome": "full",
+              "why": "Running too much costs a minute; running too little lets a broken test merge. So when the script cannot tell what changed, it runs everything."
+            }
+          ]
         }
       },
       "full": "case-studies/full/02-deciding-what-to-test-when-time-is-short.md"

@@ -164,10 +164,19 @@ test('table names are decoded once, a second table under one heading is numbered
   assert.doesNotMatch(html, /&amp;amp;/);
 });
 
-test('the About page uses the same email and LinkedIn address as the footer and contact buttons', () => {
+test('the About page does not repeat the contact details: the header buttons and the footer carry them', (t) => {
   const about = fs.readFileSync(path.join(repoRoot, 'docs/about.md'), 'utf8');
-  assert.ok(about.includes(`mailto:${config.contact.email}`), 'the email matches site.json');
-  assert.ok(about.includes(config.contact.linkedin), 'the LinkedIn address matches site.json');
+  assert.doesNotMatch(about, /mailto:|linkedin.com|Get in Touch/i, 'the About text has no contact block');
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config: stage });
+  const html = read(out, 'docs/about.html');
+  const bar = html.split('<header class="topbar">')[1].split('</header>')[0];
+  assert.ok(bar.includes(`href="mailto:${config.contact.email}"`), 'the header email button matches site.json');
+  assert.ok(bar.includes(`href="${config.contact.linkedin}"`), 'the header LinkedIn button matches site.json');
+  const plain = scratch(t);
+  buildSite({ root: repoRoot, out: plain, config });
+  const foot = read(plain, 'docs/about.html').split('<footer')[1];
+  assert.ok(foot.includes(`mailto:${config.contact.email}`) && foot.includes(config.contact.linkedin), 'the footer of the default look matches site.json');
 });
 
 test('two sections that happen to share a heading each get their own table name, not a number', () => {
@@ -716,4 +725,43 @@ test('every stage page can open a fold that a link points into, and the theme sw
   assert.match(html, /closest\('details'\)[\s\S]*hashchange/, 'a link into a closed fold opens it');
   const toggle = html.match(/<script>\(function\(\)\{var b=document\.getElementById\('theme-toggle'\)[\s\S]*?<\/script>/)[0];
   assert.match(toggle, /foldsOpen[\s\S]*location\.reload\(\)/, 'open folds are saved before the reload');
+});
+
+test('the three diagrams are pieces on the site and still mermaid on GitHub, and their numbers agree with the diagram text', (t) => {
+  const out = scratch(t);
+  buildSite({ root: repoRoot, out, config: stage });
+  const expect = { 'case-studies/01-prioritizing-the-ideas-plan.html': ['funnel'], 'case-studies/02-deciding-what-to-test-when-time-is-short.html': ['timebar', 'scope'] };
+  for (const [rel, kinds] of Object.entries(expect)) {
+    const html = read(out, rel);
+    for (const kind of kinds) assert.equal((html.match(new RegExp(`<div class="pc [a-z]+" data-site="${kind}"`, 'g')) ?? []).length, 1, `${rel}: one ${kind} piece`);
+    assert.doesNotMatch(html, /<pre class="mermaid"/, `${rel}: no diagram is left for the mermaid script to draw`);
+    assert.doesNotMatch(html, /cdn\.jsdelivr\.net\/npm\/mermaid/, `${rel}: the mermaid script is not loaded when no diagram needs it`);
+  }
+  const card = (file) => config.cards.find((c) => c.full === file);
+  const full = (c) => fs.readFileSync(path.join(repoRoot, c.full), 'utf8').replace(/\r\n/g, '\n');
+  const ideas = card('case-studies/full/01-prioritizing-the-ideas-plan.md'), testing = card('case-studies/full/02-deciding-what-to-test-when-time-is-short.md');
+  const mermaidIn = (md, kind) => { const inside = md.split(`<!-- site:${kind} -->`)[1]?.split(`<!-- /site:${kind} -->`)[0] ?? ''; return inside.includes('```mermaid') ? inside : undefined; };
+  for (const [c, kind] of [[ideas, 'funnel'], [testing, 'timebar'], [testing, 'scope']]) assert.ok(mermaidIn(full(c), kind), `${c.full}: the ${kind} block keeps its mermaid diagram for GitHub`);
+  const flow = mermaidIn(full(ideas), 'funnel');
+  const f = ideas.components.funnel.stages.map((s) => s.value);
+  for (const n of [843, 65, 209, 570, 42]) assert.ok(flow.includes(String(n)), `the diagram names ${n}`);
+  assert.deepEqual([f[0], f[f.length - 2], f[f.length - 1]], [843, 570, 42], 'the funnel runs 843, 570, 42');
+  const deltas = ideas.components.funnel.stages.map((s) => s.delta).filter((d) => d !== undefined);
+  assert.deepEqual(deltas, [-65, -209, 1], 'the changes are the diagram\'s: minus 65, minus 209, plus 1');
+  const bar = mermaidIn(full(testing), 'timebar'), shares = testing.components.timebar.segments.map((s) => s.share);
+  for (const s of shares) assert.ok(bar.includes(`${s}%`) || s === 10, `the time diagram names ${s}%`);
+  assert.deepEqual(shares, [60, 30, 10]);
+  const smoke = testing.components.scope.outcomes.find((o) => o.id === 'smoke').detail;
+  assert.ok(smoke.includes('16') && smoke.includes('65') && full(testing).includes('16 of the 65 browser tests'), 'the smoke numbers match the text');
+  assert.equal(testing.components.scope.scenarios.filter((s) => s.outcome === 'smoke').length, 1, 'only a plain pull request runs smoke tests only');
+});
+
+test('the mermaid script is only added to a page that still holds a diagram for it to draw', () => {
+  const page = (body, hasMermaid) => pageHtml({ config, title: 'T', body, depth: 0, hasMermaid });
+  assert.doesNotMatch(page('<p>a piece replaced the diagram</p>', true), /cdn\.jsdelivr\.net\/npm\/mermaid/);
+  assert.match(page('<pre class="mermaid">flowchart LR\n A --> B</pre>', true), /cdn\.jsdelivr\.net\/npm\/mermaid/);
+  assert.doesNotMatch(page('<pre class="mermaid">flowchart LR\n A --> B</pre>', false), /cdn\.jsdelivr\.net\/npm\/mermaid/);
+  const stagePage = (html, hasMermaid) => stageReadingPage({ config: stage, rel: 'docs/x.md', html, title: 'x', hasMermaid, description: '', depth: 1 });
+  assert.doesNotMatch(stagePage('<p>a piece replaced the diagram</p>', true), /cdn\.jsdelivr\.net\/npm\/mermaid/, 'the stage look too');
+  assert.match(stagePage('<pre class="mermaid">flowchart LR\n A --> B</pre>', true), /cdn\.jsdelivr\.net\/npm\/mermaid/);
 });
