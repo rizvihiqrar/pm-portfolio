@@ -140,7 +140,8 @@
             ]
           }
         }
-      }
+      },
+      "full": "case-studies/full/01-prioritizing-the-ideas-plan.md"
     },
     {
       "label": "Case Study",
@@ -261,7 +262,8 @@
             ]
           }
         }
-      }
+      },
+      "full": "case-studies/full/02-deciding-what-to-test-when-time-is-short.md"
     },
     {
       "label": "Prototype",
