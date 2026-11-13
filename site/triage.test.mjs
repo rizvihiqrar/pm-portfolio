@@ -90,3 +90,12 @@ test('the built page has the picker with all six tickets and the folded full ver
   for (const s of scope.scenarios) assert.ok(html.includes(s.label), `${s.label} is a button`);
   assert.match(html, /Read the Full Version/);
 });
+
+test('the card picture names the same two outcomes and the same question as the picker, and the alt text says where each answer goes (the break: rename a box in the picture)', () => {
+  const svg = read(card.visual);
+  for (const o of scope.outcomes) assert.ok(svg.includes(`>${o.text}<`), `the picture has ${o.text}`);
+  assert.ok(svg.includes('Do the criteria') && svg.includes('already say it?'), 'the picture asks the same question');
+  assert.match(card.visualAlt, /No sends it to the requirement owner/);
+  assert.match(card.visualAlt, /yes sends it back to the developer/);
+  assert.match(svg, /<title id="t">Ticket Triage<\/title>/);
+});

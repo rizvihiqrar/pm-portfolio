@@ -485,7 +485,7 @@
       "summary": "One question settles whether a rejected ticket needs a better requirement or a fix in the code, and gives each answer an owner.",
       "button": "View Case Study",
       "visual": "docs/assets/visuals/03-rejected-ticket-triage.svg",
-      "visualAlt": "Looping illustration: a rejected sample ticket is asked whether the acceptance criteria already say it, then goes to the requirement owner as a spec gap or back to the developer as an implementation gap.",
+      "visualAlt": "Looping illustration: a ticket is raised, tested and rejected, then asked whether the acceptance criteria already say it. No sends it to the requirement owner as a spec gap; yes sends it back to the developer as an implementation gap.",
       "code": "Quote the criterion the build breaks. If there is none, label it a spec gap and write the missing criterion.",
       "codeLang": "text",
       "oneLiner": "One question tells a missing requirement from a missed fix, so a rejected ticket goes to the right person first.",
