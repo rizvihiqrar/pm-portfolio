@@ -1,4 +1,4 @@
-# Rejected-Ticket Triage: Full Version
+# Ticket Triage: Full Version
 
 The longer version of the case study: the rule, the flow, the sample tickets and the limits. Every ticket, name and number here is made up to show the idea; none comes from a real project or employer.
 
