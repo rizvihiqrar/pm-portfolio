@@ -371,12 +371,14 @@
             {
               "id": "smoke",
               "text": "Smoke tests only",
-              "detail": "16 of the 65 browser tests"
+              "detail": "16 of the 65 browser tests",
+              "tone": "green"
             },
             {
               "id": "full",
               "text": "Full suite",
-              "detail": "Everything runs"
+              "detail": "Everything runs",
+              "tone": "purple"
             }
           ],
           "scenarios": [
@@ -517,12 +519,14 @@
             {
               "id": "impl",
               "text": "Implementation gap",
-              "detail": "Back to the developer, with the criterion that fails"
+              "detail": "Back to the developer, with the criterion that fails",
+              "tone": "purple"
             },
             {
               "id": "spec",
               "text": "Spec gap",
-              "detail": "To the requirement owner, with the missing criterion"
+              "detail": "To the requirement owner, with the missing criterion",
+              "tone": "purple"
             }
           ],
           "scenarios": [
@@ -621,17 +625,20 @@
             {
               "id": "action",
               "text": "Action box",
-              "detail": "At the top, with what to do and by when"
+              "detail": "At the top, with what to do and by when",
+              "tone": "purple"
             },
             {
               "id": "line",
               "text": "One line",
-              "detail": "Under new and improved, in plain words"
+              "detail": "Under new and improved, in plain words",
+              "tone": "green"
             },
             {
               "id": "notes",
               "text": "Release notes only",
-              "detail": "Recorded for the team, left out of the brief"
+              "detail": "Recorded for the team, left out of the brief",
+              "tone": "grey"
             }
           ],
           "scenarios": [

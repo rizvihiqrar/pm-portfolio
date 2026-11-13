@@ -733,7 +733,7 @@ test('the three diagrams are pieces on the site and still mermaid on GitHub, and
   const expect = { 'case-studies/01-prioritizing-the-ideas-plan.html': ['funnel'], 'case-studies/02-deciding-what-to-test-when-time-is-short.html': ['timebar', 'scope'] };
   for (const [rel, kinds] of Object.entries(expect)) {
     const html = read(out, rel);
-    for (const kind of kinds) assert.equal((html.match(new RegExp(`<div class="pc [a-z]+" data-site="${kind}"`, 'g')) ?? []).length, 1, `${rel}: one ${kind} piece`);
+    for (const kind of kinds) assert.equal((html.match(new RegExp(`<div class="pc [a-z0-9 ]+"(?: style="[^"]*")? data-site="${kind}"`, 'g')) ?? []).length, 1, `${rel}: one ${kind} piece`);
     assert.doesNotMatch(html, /<pre class="mermaid"/, `${rel}: no diagram is left for the mermaid script to draw`);
     assert.doesNotMatch(html, /cdn\.jsdelivr\.net\/npm\/mermaid/, `${rel}: the mermaid script is not loaded when no diagram needs it`);
   }
