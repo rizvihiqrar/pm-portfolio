@@ -474,10 +474,10 @@
     },
     {
       "label": "Case Study",
-      "title": "Rejected-Ticket Triage",
+      "title": "Ticket Triage",
       "path": "case-studies/03-rejected-ticket-triage.md",
       "image": "docs/assets/previews/03-triage.png",
-      "imageAlt": "Title card: Rejected-Ticket Triage",
+      "imageAlt": "Title card: Ticket Triage",
       "tags": [
         "Product Owner",
         "Quality and Risk"

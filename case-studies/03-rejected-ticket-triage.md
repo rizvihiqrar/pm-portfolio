@@ -1,4 +1,4 @@
-# Rejected-Ticket Triage
+# Ticket Triage
 
 | At a Glance | |
 |---|---|

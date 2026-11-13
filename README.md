@@ -14,7 +14,7 @@ Click a case study to open its page on the site.
 |---|---|---|
 | [**Organizing Ideas**](https://rizvihiqrar.github.io/product-portfolio/case-studies/01-prioritizing-the-ideas-plan.html) | Decide what to build first when there are far more ideas than time, and keep the progress number honest | [Source](case-studies/01-prioritizing-the-ideas-plan.md) |
 | [**Testing Decisions**](https://rizvihiqrar.github.io/product-portfolio/case-studies/02-deciding-what-to-test-when-time-is-short.html) | Choose what to test first, and tell the person who decides to ship what was not covered | [Source](case-studies/02-deciding-what-to-test-when-time-is-short.md) |
-| [**Rejected-Ticket Triage**](https://rizvihiqrar.github.io/product-portfolio/case-studies/03-rejected-ticket-triage.html) | Decide whether a rejected ticket needs a better requirement or a fix in the code, and who owns each | [Source](case-studies/03-rejected-ticket-triage.md) |
+| [**Ticket Triage**](https://rizvihiqrar.github.io/product-portfolio/case-studies/03-rejected-ticket-triage.html) | Decide whether a rejected ticket needs a better requirement or a fix in the code, and who owns each | [Source](case-studies/03-rejected-ticket-triage.md) |
 | [**Release Notes to a Change Brief**](https://rizvihiqrar.github.io/product-portfolio/case-studies/08-release-notes-to-a-change-brief.html) | Decide which changes in a release a customer hears about, and put what they must do first | [Source](case-studies/08-release-notes-to-a-change-brief.md) |
 
 ## What I Do

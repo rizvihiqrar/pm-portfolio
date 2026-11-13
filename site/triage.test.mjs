@@ -6,7 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { buildSite } from './build.mjs';
 
-// Rejected-Ticket Triage states one rule (criteria say it: implementation gap; criteria do not: spec gap) in four places:
+// Ticket Triage states one rule (criteria say it: implementation gap; criteria do not: spec gap) in four places:
 // the picker data in site.json, the plain table on the page, the diagram in the full version and the alt text.
 // These tests make the places agree with the rule and with each other.
 
