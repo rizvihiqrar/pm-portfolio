@@ -571,6 +571,114 @@
           ]
         }
       }
+    },
+    {
+      "label": "Case Study",
+      "title": "Release Notes to a Change Brief",
+      "path": "case-studies/08-release-notes-to-a-change-brief.md",
+      "image": "docs/assets/previews/08-change-brief.png",
+      "imageAlt": "Title card: Release Notes to a Change Brief",
+      "tags": [
+        "Product Owner",
+        "Customer Communication"
+      ],
+      "summary": "One question decides which changes in a release a customer hears about, and how: an action box, one line, or the release notes only.",
+      "button": "View Case Study",
+      "visual": "docs/assets/visuals/08-release-notes-to-a-change-brief.svg",
+      "visualAlt": "Looping illustration of a pull request: a reviewer asks of every line of a change brief whether the customer has to do something, so each visible change is marked as an action box or one plain line, while a change nobody can see skips the question and stays in the release notes.",
+      "code": "Put every change that needs the customer to act in a box at the top, with what to do and by when. Give each other visible change one plain line. Leave out changes a customer cannot see, and list what you left out.",
+      "codeLang": "text",
+      "oneLiner": "One question turns a long list of release notes into a one-page brief that puts what the customer must do first.",
+      "codeLabel": "Prompt",
+      "full": "case-studies/full/08-release-notes-to-a-change-brief.md",
+      "components": {
+        "scope": {
+          "alt": "Six sample changes in an imaginary release: two need the customer to act and go in an action box, three get one line, and one stays in the release notes.",
+          "asOf": "Six made-up changes for an imaginary booking app.",
+          "events": [
+            {
+              "id": "new",
+              "text": "New feature"
+            },
+            {
+              "id": "change",
+              "text": "Change or removal"
+            },
+            {
+              "id": "fix",
+              "text": "Fix"
+            },
+            {
+              "id": "internal",
+              "text": "Behind the scenes"
+            }
+          ],
+          "check": {
+            "text": "Does the customer have to do something?",
+            "skipped": "Not asked: nobody outside can see it"
+          },
+          "outcomes": [
+            {
+              "id": "action",
+              "text": "Action box",
+              "detail": "At the top, with what to do and by when"
+            },
+            {
+              "id": "line",
+              "text": "One line",
+              "detail": "Under new and improved, in plain words"
+            },
+            {
+              "id": "notes",
+              "text": "Release notes only",
+              "detail": "Recorded for the team, left out of the brief"
+            }
+          ],
+          "scenarios": [
+            {
+              "label": "Bookings can be moved to another day",
+              "event": "new",
+              "check": "no",
+              "outcome": "line",
+              "why": "A customer will notice it, and nothing breaks if they ignore it."
+            },
+            {
+              "label": "Old booking links stop working",
+              "event": "change",
+              "check": "yes",
+              "outcome": "action",
+              "why": "A saved link will fail, so the customer needs to replace it before the date."
+            },
+            {
+              "label": "Password reset email arrives faster",
+              "event": "fix",
+              "check": "no",
+              "outcome": "line",
+              "why": "A customer will notice it; nothing to do."
+            },
+            {
+              "label": "Sign-in asks for an emailed code",
+              "event": "change",
+              "check": "yes",
+              "outcome": "action",
+              "why": "The customer needs access to the email address on the account, and must know before the day."
+            },
+            {
+              "label": "Database library updated",
+              "event": "internal",
+              "outcome": "notes",
+              "why": "No customer can see it."
+            },
+            {
+              "label": "Receipts no longer cut off long names",
+              "event": "fix",
+              "check": "no",
+              "outcome": "line",
+              "why": "A customer will notice it; nothing to do."
+            }
+          ]
+        }
+      }
     }
   ],
   "courseNav": [],

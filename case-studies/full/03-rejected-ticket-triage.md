@@ -68,4 +68,4 @@ Here is a rejected ticket and its acceptance criteria.
 
 ## Related Piece
 
-In the training portfolio, [Git for People New to Version Control](https://rizvihiqrar.github.io/training-portfolio/04-technical-enablement/git-workflow-guide/) covers how a change is sent for review. A pull request that is sent back is a ticket rejected in code, and the same question applies: does the written description already say it?
+In the training portfolio, [Git for New Testers](https://rizvihiqrar.github.io/training-portfolio/04-technical-enablement/git-workflow-guide/) covers how a change is sent for review. A pull request that is sent back is a ticket rejected in code, and the same question applies: does the written description already say it?
