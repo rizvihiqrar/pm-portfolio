@@ -1,4 +1,4 @@
-# Release Notes to a Change Brief: Full Version
+# Changes to Release Notes: Full Version
 
 The longer version of the case study: the rule, the brief, the sample changes and the limits. Every change, date and name here is made up to show the idea; none comes from a real project or employer.
 

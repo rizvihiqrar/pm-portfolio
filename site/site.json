@@ -476,10 +476,10 @@
     },
     {
       "label": "Case Study",
-      "title": "Ticket Triage",
+      "title": "Triaging Tickets",
       "path": "case-studies/03-rejected-ticket-triage.md",
       "image": "docs/assets/previews/03-triage.png",
-      "imageAlt": "Title card: Ticket Triage",
+      "imageAlt": "Title card: Triaging Tickets",
       "tags": [
         "Product Owner",
         "Quality and Risk"
@@ -578,10 +578,10 @@
     },
     {
       "label": "Case Study",
-      "title": "Release Notes to a Change Brief",
+      "title": "Changes to Release Notes",
       "path": "case-studies/08-release-notes-to-a-change-brief.md",
       "image": "docs/assets/previews/08-change-brief.png",
-      "imageAlt": "Title card: Release Notes to a Change Brief",
+      "imageAlt": "Title card: Changes to Release Notes",
       "tags": [
         "Product Owner",
         "Customer Communication"
