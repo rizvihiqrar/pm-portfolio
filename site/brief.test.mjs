@@ -6,7 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { buildSite } from './build.mjs';
 
-// Release Notes to a Change Brief states one rule (the customer must act: action box; they will notice: one line; they cannot see it: release notes only)
+// Changes to Release Notes states one rule (the customer must act: action box; they will notice: one line; they cannot see it: release notes only)
 // in five places: the picker data in site.json, the plain table on the page, the table in the full version, the alt text and the picture.
 // These tests make the places agree with the rule and with each other.
 

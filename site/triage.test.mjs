@@ -6,7 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { buildSite } from './build.mjs';
 
-// Ticket Triage states one rule (criteria say it: implementation gap; criteria do not: spec gap) in four places:
+// Triaging Tickets states one rule (criteria say it: implementation gap; criteria do not: spec gap) in four places:
 // the picker data in site.json, the plain table on the page, the diagram in the full version and the alt text.
 // These tests make the places agree with the rule and with each other.
 
@@ -97,5 +97,11 @@ test('the card picture names the same two outcomes and the same question as the 
   assert.ok(svg.includes('Do the criteria') && svg.includes('already say it?'), 'the picture asks the same question');
   assert.match(card.visualAlt, /No sends it to the requirement owner/);
   assert.match(card.visualAlt, /yes sends it back to the developer/);
-  assert.match(svg, /<title id="t">Ticket Triage<\/title>/);
+  assert.match(svg, /<title id="t">Triaging Tickets<\/title>/);
+});
+
+test('the card title, the page heading and the picture title are the same words (the break: rename the card only)', () => {
+  assert.equal(card.title, must(page.match(/^# (.*)$/m), 'the page heading')[1]);
+  assert.match(read(card.visual), new RegExp(`<title id="t">${card.title}</title>`));
+  assert.equal(card.imageAlt, `Title card: ${card.title}`);
 });

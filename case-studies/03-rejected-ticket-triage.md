@@ -1,4 +1,4 @@
-# Ticket Triage
+# Triaging Tickets
 
 | At a Glance | |
 |---|---|

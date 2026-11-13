@@ -1,4 +1,4 @@
-# Release Notes to a Change Brief
+# Changes to Release Notes
 
 | At a Glance | |
 |---|---|
