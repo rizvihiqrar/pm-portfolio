@@ -471,6 +471,106 @@
         "Design"
       ],
       "summary": "Consented interviews, the patterns across them, and a problem statement."
+    },
+    {
+      "label": "Case Study",
+      "title": "Rejected-Ticket Triage",
+      "path": "case-studies/03-rejected-ticket-triage.md",
+      "image": "docs/assets/previews/03-triage.png",
+      "imageAlt": "Title card: Rejected-Ticket Triage",
+      "tags": [
+        "Product Owner",
+        "Quality and Risk"
+      ],
+      "summary": "One question settles whether a rejected ticket needs a better requirement or a fix in the code, and gives each answer an owner.",
+      "button": "View Case Study",
+      "visual": "docs/assets/visuals/03-rejected-ticket-triage.svg",
+      "visualAlt": "Looping illustration: a rejected sample ticket is asked whether the acceptance criteria already say it, then goes to the requirement owner as a spec gap or back to the developer as an implementation gap.",
+      "code": "Quote the criterion the build breaks. If there is none, label it a spec gap and write the missing criterion.",
+      "codeLang": "text",
+      "oneLiner": "One question tells a missing requirement from a missed fix, so a rejected ticket goes to the right person first.",
+      "codeLabel": "Prompt",
+      "full": "case-studies/full/03-rejected-ticket-triage.md",
+      "components": {
+        "scope": {
+          "alt": "Six sample rejected tickets: three go back to the developer as implementation gaps and three go to the requirement owner as spec gaps.",
+          "asOf": "Six made-up tickets for an imaginary report export.",
+          "events": [
+            {
+              "id": "tester",
+              "text": "Sent back by a tester"
+            },
+            {
+              "id": "reviewer",
+              "text": "Sent back at review"
+            },
+            {
+              "id": "customer",
+              "text": "Sent back by a customer"
+            }
+          ],
+          "check": {
+            "text": "Do the acceptance criteria already say it?",
+            "skipped": "Not asked for this one"
+          },
+          "outcomes": [
+            {
+              "id": "impl",
+              "text": "Implementation gap",
+              "detail": "Back to the developer, with the criterion that fails"
+            },
+            {
+              "id": "spec",
+              "text": "Spec gap",
+              "detail": "To the requirement owner, with the missing criterion"
+            }
+          ],
+          "scenarios": [
+            {
+              "label": "Export button does nothing",
+              "event": "tester",
+              "check": "yes",
+              "outcome": "impl",
+              "why": "The criteria say the button exports a CSV file. It does not, so the build missed something that was written down."
+            },
+            {
+              "label": "Export has no totals row",
+              "event": "tester",
+              "check": "no",
+              "outcome": "spec",
+              "why": "The criteria never mention totals. The developer built what was written, so the owner fixes the requirement first."
+            },
+            {
+              "label": "Dates show in the wrong format",
+              "event": "reviewer",
+              "check": "yes",
+              "outcome": "impl",
+              "why": "The criteria say dates are shown as year-month-day. The build shows something else."
+            },
+            {
+              "label": "Customer expected a PDF",
+              "event": "customer",
+              "check": "no",
+              "outcome": "spec",
+              "why": "The criteria say CSV. The wish is new, so the owner adds it to the criteria or logs a new request."
+            },
+            {
+              "label": "A large file freezes the export",
+              "event": "tester",
+              "check": "no",
+              "outcome": "spec",
+              "why": "Nothing says how many rows it must handle. Ask the owner for a number, then test against it."
+            },
+            {
+              "label": "Columns are in the wrong order",
+              "event": "reviewer",
+              "check": "yes",
+              "outcome": "impl",
+              "why": "The criteria list the column order. The build does not follow it."
+            }
+          ]
+        }
+      }
     }
   ],
   "courseNav": [],
